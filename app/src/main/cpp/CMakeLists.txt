@@ -5,11 +5,16 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # QNN SDK PATH
-set(QNN_SDK_ROOT /data/qairt/2.39.0.250926)
+set(QNN_SDK_ROOT "$ENV{QNN_SDK_ROOT}" CACHE PATH "Qualcomm AI Runtime SDK root")
+if(NOT QNN_SDK_ROOT)
+    set(QNN_SDK_ROOT /data/qairt/2.39.0.250926)
+endif()
 
 file(COPY ${QNN_SDK_ROOT}/examples/QNN/SampleApp/SampleApp/
     DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/SampleApp)
-execute_process(COMMAND git apply --directory=app/src/main/cpp/ --verbose ${CMAKE_CURRENT_SOURCE_DIR}/SampleApp.patch
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/SampleApp.patch
+    ${CMAKE_CURRENT_BINARY_DIR}/SampleApp.patch @ONLY NEWLINE_STYLE UNIX)
+execute_process(COMMAND git apply --directory=app/src/main/cpp/ --verbose ${CMAKE_CURRENT_BINARY_DIR}/SampleApp.patch
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     RESULT_VARIABLE patch_result
     OUTPUT_VARIABLE patch_output
@@ -18,6 +23,9 @@ execute_process(COMMAND git apply --directory=app/src/main/cpp/ --verbose ${CMAK
 message(STATUS "Patch: ${patch_result}")
 message(STATUS "Patch: ${patch_output}")
 message(STATUS "Patch: ${patch_error}")
+if(NOT patch_result EQUAL 0)
+    message(FATAL_ERROR "Failed to apply SampleApp.patch")
+endif()
 
 make_directory(${CMAKE_CURRENT_BINARY_DIR}/qnnlibs)
 file(COPY ${QNN_SDK_ROOT}/lib/aarch64-android/libQnnHtp.so
@@ -61,7 +69,7 @@ file(COPY ${QNN_SDK_ROOT}/lib/hexagon-v81/unsigned/libQnnHtpV81.so
 file(COPY ${QNN_SDK_ROOT}/lib/hexagon-v81/unsigned/libQnnHtpV81Skel.so
     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/qnnlibs)
 
-if(WIN32)
+if(CMAKE_HOST_WIN32)
     set(PLATFORM_NAME "windows")
     set(HOST_TAG "windows-x86_64")
 else()

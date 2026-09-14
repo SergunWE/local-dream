@@ -411,7 +411,7 @@ fun InpaintScreen(
                     IconButton(onClick = onCancel) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(R.string.back),
                         )
                     }
                 },
@@ -424,7 +424,7 @@ fun InpaintScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Check,
-                            contentDescription = "Complete Marking",
+                            contentDescription = stringResource(R.string.done),
                         )
                     }
                 },
@@ -613,7 +613,7 @@ fun InpaintScreen(
                     ) {
                         Image(
                             bitmap = originalBitmap.asImageBitmap(),
-                            contentDescription = "Original Image",
+                            contentDescription = stringResource(R.string.original_image),
                             contentScale = ContentScale.Fit,
                             modifier = Modifier.fillMaxSize(),
                         )
@@ -671,7 +671,7 @@ fun InpaintScreen(
                                 ) {
                                     Icon(
                                         Icons.Default.Brush,
-                                        contentDescription = "Brush Tool",
+                                        contentDescription = stringResource(R.string.brush_tool),
                                         modifier = Modifier.size(ToggleButtonDefaults.IconSize),
                                     )
                                 }
@@ -683,7 +683,7 @@ fun InpaintScreen(
                                 ) {
                                     Icon(
                                         Icons.Default.FormatPaint,
-                                        contentDescription = "Eraser Tool",
+                                        contentDescription = stringResource(R.string.drawing_eraser),
                                         modifier = Modifier.size(ToggleButtonDefaults.IconSize),
                                     )
                                 }
@@ -752,7 +752,7 @@ fun InpaintScreen(
                             ) {
                                 Icon(
                                     Icons.Default.Refresh,
-                                    contentDescription = "Undo",
+                                    contentDescription = stringResource(R.string.undo),
                                     modifier = Modifier.size(ButtonDefaults.IconSize),
                                 )
                                 Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
@@ -765,7 +765,7 @@ fun InpaintScreen(
                             ) {
                                 Icon(
                                     Icons.AutoMirrored.Filled.Redo,
-                                    contentDescription = "Redo",
+                                    contentDescription = stringResource(R.string.redo),
                                     modifier = Modifier.size(ButtonDefaults.IconSize),
                                 )
                                 Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))

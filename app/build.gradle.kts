@@ -67,6 +67,9 @@ android {
             enableSplit = false
         }
     }
+    androidResources {
+        localeFilters += listOf("en", "ru")
+    }
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("release")
@@ -125,6 +128,7 @@ androidComponents {
 }
 
 dependencies {
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)

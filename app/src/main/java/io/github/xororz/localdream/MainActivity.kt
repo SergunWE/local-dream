@@ -5,10 +5,10 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -18,12 +18,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import io.github.xororz.localdream.data.LanguagePreferences
 import io.github.xororz.localdream.data.MigrationState
+import io.github.xororz.localdream.data.ModelRepository
+import io.github.xororz.localdream.data.UpscalerRepository
 import io.github.xororz.localdream.navigation.Screen
 import io.github.xororz.localdream.ui.screens.HistoryScreen
 import io.github.xororz.localdream.ui.screens.MigrationScreen
@@ -40,8 +44,9 @@ import io.github.xororz.localdream.ui.theme.sharedAxisXPopEnter
 import io.github.xororz.localdream.ui.theme.sharedAxisXPopExit
 import io.github.xororz.localdream.ui.theme.sharedAxisXPredictivePopEnter
 import io.github.xororz.localdream.ui.theme.sharedAxisXPredictivePopExit
+import kotlinx.coroutines.launch
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     private val requestStoragePermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
     ) { isGranted: Boolean ->
@@ -121,7 +126,17 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            LanguagePreferences.initialize(this)
+        }
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            LanguagePreferences.initialize(this)
+        }
+        lifecycleScope.launch {
+            ModelRepository.getInstance(this@MainActivity).refreshAllModels()
+            UpscalerRepository.getInstance(this@MainActivity).refreshBaseUrl()
+        }
         enableEdgeToEdge()
 
         checkStoragePermission()

@@ -93,6 +93,7 @@ import coil.request.ImageRequest
 import io.github.xororz.localdream.R
 import io.github.xororz.localdream.data.HistoryFilter
 import io.github.xororz.localdream.data.HistoryItem
+import io.github.xororz.localdream.ui.components.localizedDuration
 import io.github.xororz.localdream.ui.theme.Motion
 
 /** Result tab of the run screen: latest image, quick actions and recent thumbnails. */
@@ -220,7 +221,7 @@ internal fun ModelRunResultPage(
                                                 } else {
                                                     Icons.Default.FavoriteBorder
                                                 },
-                                                contentDescription = "toggle favorite",
+                                                contentDescription = stringResource(R.string.toggle_favorite),
                                             )
                                         }
                                     }
@@ -231,7 +232,7 @@ internal fun ModelRunResultPage(
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Default.Report,
-                                                contentDescription = "report inappropriate content",
+                                                contentDescription = stringResource(R.string.report),
                                             )
                                         }
                                     }
@@ -242,7 +243,7 @@ internal fun ModelRunResultPage(
                                             onClick = onUpscaleClick,
                                             onLongClick = onUpscaleLongClick,
                                             icon = Icons.Default.AutoFixHigh,
-                                            contentDescription = "upscale image",
+                                            contentDescription = stringResource(R.string.image_upscale),
                                         )
                                     }
 
@@ -252,7 +253,7 @@ internal fun ModelRunResultPage(
                                             onClick = onUltrafixClick,
                                             onLongClick = onUltrafixLongClick,
                                             icon = Icons.Default.AutoAwesome,
-                                            contentDescription = "ultrafix image",
+                                            contentDescription = stringResource(R.string.ultrafix),
                                         )
                                     }
 
@@ -261,7 +262,7 @@ internal fun ModelRunResultPage(
                                     ) {
                                         Icon(
                                             imageVector = Icons.Default.Save,
-                                            contentDescription = "save image",
+                                            contentDescription = stringResource(R.string.save_image),
                                         )
                                     }
                                 }
@@ -300,7 +301,7 @@ internal fun ModelRunResultPage(
                                             .size(coil.size.Size.ORIGINAL)
                                             .crossfade(true)
                                             .build(),
-                                        contentDescription = "generated image",
+                                        contentDescription = stringResource(R.string.generated_image),
                                         modifier = Modifier.fillMaxSize(),
                                     )
                                 }
@@ -352,7 +353,7 @@ internal fun ModelRunResultPage(
                                                 .data(item.imageFile)
                                                 .crossfade(true)
                                                 .build(),
-                                            contentDescription = "thumb",
+                                            contentDescription = stringResource(R.string.image_thumbnail),
                                             modifier = Modifier.fillMaxSize(),
                                         )
                                     }
@@ -383,7 +384,7 @@ internal fun ModelRunResultPage(
                                     )
                                     Icon(
                                         Icons.Default.Info,
-                                        contentDescription = "view details",
+                                        contentDescription = stringResource(R.string.params_detail),
                                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
                                     )
                                 }
@@ -404,8 +405,7 @@ internal fun ModelRunResultPage(
                                             R.string.result_params_2,
                                             params.width,
                                             params.height,
-                                            params.generationTime
-                                                ?: "unknown",
+                                            localizedDuration(params.generationTime),
                                             if (params.runOnCpu) {
                                                 if (params.useOpenCL) "GPU" else "CPU"
                                             } else {
@@ -446,8 +446,9 @@ internal fun ModelRunHistoryPage(
     onBatchDelete: () -> Unit,
 ) {
     val locale = LocalConfiguration.current.locales[0]
-    val timestampFormat = remember(locale) {
-        java.text.SimpleDateFormat("MM/dd HH:mm", locale)
+    val timestampPattern = stringResource(R.string.history_timestamp_pattern)
+    val timestampFormat = remember(locale, timestampPattern) {
+        java.text.SimpleDateFormat(timestampPattern, locale)
     }
     // Handle back button in selection mode
     BackHandler(enabled = isSelectionMode && !isBatchSaving) {
@@ -554,7 +555,7 @@ internal fun ModelRunHistoryPage(
                                         .data(item.imageFile)
                                         .crossfade(true)
                                         .build(),
-                                    contentDescription = "Generated image",
+                                    contentDescription = stringResource(R.string.generated_image),
                                     modifier = Modifier.fillMaxSize(),
                                 )
 
@@ -573,7 +574,7 @@ internal fun ModelRunHistoryPage(
                                 if (item.favorite) {
                                     Icon(
                                         imageVector = Icons.Default.Favorite,
-                                        contentDescription = "favorited",
+                                        contentDescription = stringResource(R.string.history_filter_favorite),
                                         tint = MaterialTheme.colorScheme.error,
                                         modifier = Modifier
                                             .align(Alignment.TopStart)
@@ -635,7 +636,7 @@ internal fun ModelRunHistoryPage(
                                         if (isSelected) {
                                             Icon(
                                                 imageVector = Icons.Default.Check,
-                                                contentDescription = "Selected",
+                                                contentDescription = stringResource(R.string.file_selected),
                                                 tint = MaterialTheme.colorScheme.onPrimary,
                                                 modifier = Modifier.size(16.dp),
                                             )
@@ -663,7 +664,7 @@ internal fun ModelRunHistoryPage(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Close,
-                                contentDescription = "Exit selection mode",
+                                contentDescription = stringResource(R.string.exit_selection),
                             )
                         }
                     },
@@ -684,7 +685,7 @@ internal fun ModelRunHistoryPage(
                                     } else {
                                         Icons.Default.CheckCircleOutline
                                     },
-                                    contentDescription = if (isAllSelected) "Deselect all" else "Select all",
+                                    contentDescription = stringResource(if (isAllSelected) R.string.deselect_all else R.string.select_all),
                                 )
                             }
                             IconButton(
@@ -696,7 +697,7 @@ internal fun ModelRunHistoryPage(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Save,
-                                    contentDescription = "Save selected",
+                                    contentDescription = stringResource(R.string.batch_save),
                                 )
                             }
                             IconButton(
@@ -708,7 +709,7 @@ internal fun ModelRunHistoryPage(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Delete,
-                                    contentDescription = "Delete selected",
+                                    contentDescription = stringResource(R.string.batch_delete),
                                 )
                             }
                         }

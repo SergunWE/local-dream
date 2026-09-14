@@ -404,35 +404,35 @@ private fun TagActionToolbar(
     ) {
         ToolbarAction(
             icon = Icons.Default.Add,
-            contentDescription = "add tag",
+            contentDescription = stringResource(R.string.add_tag),
             container = MaterialTheme.colorScheme.secondaryContainer,
             onColor = MaterialTheme.colorScheme.onSecondaryContainer,
             onClick = onAddTag,
         )
         ToolbarAction(
             icon = Icons.AutoMirrored.Filled.Backspace,
-            contentDescription = "clear tag",
+            contentDescription = stringResource(R.string.clear_tag),
             container = MaterialTheme.colorScheme.secondaryContainer,
             onColor = MaterialTheme.colorScheme.onSecondaryContainer,
             onClick = onClearTag,
         )
         ToolbarAction(
             icon = Icons.Default.ArrowUpward,
-            contentDescription = "increase weight",
+            contentDescription = stringResource(R.string.increase_weight),
             container = MaterialTheme.colorScheme.tertiaryContainer,
             onColor = MaterialTheme.colorScheme.onTertiaryContainer,
             onClick = onIncreaseWeight,
         )
         ToolbarAction(
             icon = Icons.Default.ArrowDownward,
-            contentDescription = "decrease weight",
+            contentDescription = stringResource(R.string.decrease_weight),
             container = MaterialTheme.colorScheme.tertiaryContainer,
             onColor = MaterialTheme.colorScheme.onTertiaryContainer,
             onClick = onDecreaseWeight,
         )
         ToolbarAction(
             icon = Icons.AutoMirrored.Filled.Undo,
-            contentDescription = "undo",
+            contentDescription = stringResource(R.string.undo),
             container = MaterialTheme.colorScheme.primaryContainer,
             onColor = MaterialTheme.colorScheme.onPrimaryContainer,
             onClick = onUndo,
@@ -440,7 +440,7 @@ private fun TagActionToolbar(
         )
         ToolbarAction(
             icon = Icons.AutoMirrored.Filled.Redo,
-            contentDescription = "redo",
+            contentDescription = stringResource(R.string.redo),
             container = MaterialTheme.colorScheme.primaryContainer,
             onColor = MaterialTheme.colorScheme.onPrimaryContainer,
             onClick = onRedo,
@@ -448,7 +448,7 @@ private fun TagActionToolbar(
         )
         ToolbarAction(
             icon = Icons.Default.Close,
-            contentDescription = "close suggestions",
+            contentDescription = stringResource(R.string.close_suggestions),
             container = MaterialTheme.colorScheme.surfaceVariant,
             onColor = MaterialTheme.colorScheme.onSurfaceVariant,
             onClick = onClose,

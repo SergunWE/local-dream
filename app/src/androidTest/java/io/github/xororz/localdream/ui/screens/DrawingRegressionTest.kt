@@ -20,6 +20,8 @@ import androidx.core.graphics.get
 import androidx.core.graphics.set
 import androidx.test.espresso.Espresso
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import io.github.xororz.localdream.R
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
 import org.junit.Assert.assertArrayEquals
@@ -154,7 +156,7 @@ class DrawingRegressionTest {
         compose.onNodeWithTag("drawing_canvas").performTouchInput {
             swipe(center, center + Offset(50f, 0f))
         }
-        compose.onNodeWithText("Done").performClick()
+        compose.onNodeWithText(InstrumentationRegistry.getInstrumentation().targetContext.getString(R.string.done)).performClick()
         compose.waitUntil(5_000) { saved.get() != null }
         val (image, layer) = saved.get()!!
         assertEquals(300, image.width)
@@ -187,7 +189,7 @@ class DrawingRegressionTest {
         canvas.performTouchInput { swipe(center, center + Offset(50f, 0f)) }
         val center = canvas.fetchSemanticsNode().boundsInRoot.center
         val before = compose.onNodeWithTag("brush_indicator").fetchSemanticsNode().boundsInRoot
-        compose.onNodeWithContentDescription("Zoom").performClick()
+        compose.onNodeWithContentDescription(InstrumentationRegistry.getInstrumentation().targetContext.getString(R.string.drawing_zoom)).performClick()
         canvas.performTouchInput {
             down(0, this.center - Offset(100f, 0f))
             down(1, this.center + Offset(100f, 0f))

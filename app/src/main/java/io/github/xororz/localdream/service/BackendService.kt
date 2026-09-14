@@ -8,6 +8,7 @@ import androidx.core.app.NotificationCompat
 import io.github.xororz.localdream.BuildConfig
 import io.github.xororz.localdream.R
 import io.github.xororz.localdream.data.Model
+import io.github.xororz.localdream.data.localizedString
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.Executors
@@ -153,7 +154,7 @@ class BackendService : Service() {
         try {
             startForeground(
                 NOTIFICATION_ID,
-                createNotification(this.getString(R.string.backend_notify)),
+                createNotification(this.localizedString(R.string.backend_notify)),
             )
         } catch (e: Exception) {
             // Android 12+ can reject foreground promotion when the command
@@ -266,7 +267,7 @@ class BackendService : Service() {
         } else {
             serving = null
             updateServing(null)
-            updateState(BackendState.Error("Backend start failed", want.modelId))
+            updateState(BackendState.Error(localizedString(R.string.backend_failed), want.modelId))
         }
     }
 
@@ -297,8 +298,8 @@ class BackendService : Service() {
     }
 
     private fun createNotificationChannel() {
-        val name = "Backend Service"
-        val descriptionText = "Backend service for image generation"
+        val name = localizedString(R.string.backend_channel)
+        val descriptionText = localizedString(R.string.backend_channel_desc)
         val importance = NotificationManager.IMPORTANCE_LOW
         val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
             description = descriptionText
@@ -319,7 +320,7 @@ class BackendService : Service() {
         )
 
         return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle(this.getString(R.string.backend_notify_title))
+            .setContentTitle(this.localizedString(R.string.backend_notify_title))
             .setContentText(contentText)
             .setSmallIcon(R.drawable.ic_launcher_monochrome)
             .setContentIntent(pendingIntent)
@@ -363,7 +364,7 @@ class BackendService : Service() {
                 Log.i(TAG, "QNN libraries prepared in runtime directory")
             } catch (e: IOException) {
                 Log.e(TAG, "Failed to prepare QNN libraries from assets", e)
-                throw RuntimeException("Failed to prepare QNN libraries from assets", e)
+                throw RuntimeException(localizedString(R.string.qnn_prepare_failed), e)
             }
 
             if (BuildConfig.FLAVOR == "filter") {
@@ -389,7 +390,7 @@ class BackendService : Service() {
                     safetyCheckerTarget.setReadable(true, true)
                 } catch (e: IOException) {
                     Log.e(TAG, "copy safety_checker.mnn failed", e)
-                    throw RuntimeException("Failed to copy safety checker model", e)
+                    throw RuntimeException(localizedString(R.string.safety_model_copy_failed), e)
                 }
             }
 
@@ -597,7 +598,7 @@ class BackendService : Service() {
             if (isLiveCrash(proc)) {
                 updateState(
                     BackendState.Error(
-                        "Backend process exited with code: $exitCode",
+                        localizedString(R.string.backend_exit_code, exitCode),
                         servingModelId.value,
                     ),
                 )

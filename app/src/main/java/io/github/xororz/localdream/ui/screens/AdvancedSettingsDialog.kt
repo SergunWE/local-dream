@@ -415,7 +415,7 @@ internal fun AdvancedSettingsDialog(
                                 IconButton(onClick = { onSeedChange("") }) {
                                     Icon(
                                         Icons.Default.Clear,
-                                        contentDescription = "clear",
+                                        contentDescription = stringResource(R.string.tag_clear),
                                     )
                                 }
                             }

@@ -13,6 +13,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.createBitmap
 import io.github.xororz.localdream.R
+import io.github.xororz.localdream.data.localizedString
 import io.github.xororz.localdream.utils.Http
 import java.io.BufferedReader
 import java.io.File
@@ -316,7 +317,7 @@ class BackgroundGenerationService : Service() {
             call.execute().use { response ->
                 if (!response.isSuccessful) {
                     throw IOException(
-                        this@BackgroundGenerationService.getString(
+                        this@BackgroundGenerationService.localizedString(
                             R.string.error_request_failed,
                             response.code.toString(),
                         ),
@@ -423,7 +424,7 @@ class BackgroundGenerationService : Service() {
                                     )
 
                                     if (base64Image.isNullOrEmpty()) {
-                                        throw IOException("no image data")
+                                        throw IOException(localizedString(R.string.image_data_missing))
                                     }
 
                                     // 2. Base64 decode
@@ -452,7 +453,7 @@ class BackgroundGenerationService : Service() {
                                         }
                                     } else {
                                         BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-                                            ?: throw IOException("Failed to decode result image")
+                                            ?: throw IOException(localizedString(R.string.result_decode_failed))
                                     }
                                     Log.d(
                                         "BgGenService",
@@ -529,7 +530,7 @@ class BackgroundGenerationService : Service() {
                 Log.e("GenerationService", "generation error", e)
                 updateState(
                     GenerationState.Error(
-                        e.message ?: this@BackgroundGenerationService.getString(R.string.unknown_error),
+                        e.message ?: this@BackgroundGenerationService.localizedString(R.string.unknown_error),
                     ),
                 )
             }
@@ -553,8 +554,8 @@ class BackgroundGenerationService : Service() {
     }
 
     private fun createNotificationChannel() {
-        val name = "Image Generation"
-        val descriptionText = "Background image generation"
+        val name = localizedString(R.string.generation_channel)
+        val descriptionText = localizedString(R.string.generation_channel_desc)
         val importance = NotificationManager.IMPORTANCE_LOW
         val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
             description = descriptionText
@@ -574,8 +575,8 @@ class BackgroundGenerationService : Service() {
         )
 
         return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle(this.getString(R.string.generating_notify))
-            .setContentText("Progress: ${(progress * 100).toInt()}%")
+            .setContentTitle(this.localizedString(R.string.generating_notify))
+            .setContentText(localizedString(R.string.generation_progress, (progress * 100).toInt()))
             .setProgress(100, (progress * 100).toInt(), false)
             .setSmallIcon(R.drawable.ic_launcher_monochrome)
             .setContentIntent(pendingIntent)

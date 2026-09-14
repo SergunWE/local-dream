@@ -51,6 +51,7 @@ import androidx.compose.material3.ToggleButton
 import androidx.compose.material3.toShape
 import androidx.compose.runtime.*
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -62,6 +63,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -98,7 +100,6 @@ import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
-import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -285,7 +286,7 @@ fun ModelListScreen(navController: NavController, modifier: Modifier = Modifier)
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
 
-    var showSettingsDialog by remember { mutableStateOf(false) }
+    var showSettingsDialog by rememberSaveable { mutableStateOf(false) }
     var showFileManagerDialog by remember { mutableStateOf(false) }
     var showBackupDialog by remember { mutableStateOf(false) }
     var showCleanTempDialog by remember { mutableStateOf(false) }
@@ -504,7 +505,7 @@ fun ModelListScreen(navController: NavController, modifier: Modifier = Modifier)
         AlertDialog(
             onDismissRequest = { showCleanTempDialog = false },
             title = { Text(stringResource(R.string.clean_temp_files)) },
-            text = { Text(stringResource(R.string.clean_temp_confirm, formatBytes(tempScanBytes))) },
+            text = { Text(stringResource(R.string.clean_temp_confirm, formatBytes(context, tempScanBytes))) },
             confirmButton = {
                 TextButton(onClick = {
                     showCleanTempDialog = false
@@ -512,7 +513,7 @@ fun ModelListScreen(navController: NavController, modifier: Modifier = Modifier)
                         val freed = TempCleaner.clean(context)
                         Toast.makeText(
                             context,
-                            msgCleanTempDone.format(formatBytes(freed)),
+                            msgCleanTempDone.format(formatBytes(context, freed)),
                             Toast.LENGTH_SHORT,
                         ).show()
                     }
@@ -1263,6 +1264,7 @@ fun ModelListScreen(navController: NavController, modifier: Modifier = Modifier)
             ) { paddingValues ->
                 LazyColumn(
                     modifier = Modifier
+                        .testTag("settings_list")
                         .fillMaxSize()
                         .padding(paddingValues)
                         .padding(horizontal = 16.dp),
@@ -1406,6 +1408,7 @@ fun ModelListScreen(navController: NavController, modifier: Modifier = Modifier)
                     }
                     // Appearance (theme) section
                     item { AppearanceSection() }
+                    item { LanguageSettings() }
                     // Feature settings section
                     item {
                         Column {
@@ -1891,7 +1894,7 @@ fun ModelListScreen(navController: NavController, modifier: Modifier = Modifier)
                 modifier = Modifier.size(72.dp),
             )
             Text(
-                text = "${(byteProgress.fraction * 100).toInt()}%  ${formatBytes(byteProgress.extractedBytes)}",
+                text = "${(byteProgress.fraction * 100).toInt()}%  ${formatBytes(context, byteProgress.extractedBytes)}",
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontFeatureSettings = "tnum",
                 ),
@@ -1936,8 +1939,8 @@ fun ModelListScreen(navController: NavController, modifier: Modifier = Modifier)
                 )
 
                 Text(
-                    text = "${(progress.progress * 100).toInt()}% - ${formatBytes(progress.downloadedBytes)} / ${
-                        formatBytes(progress.totalBytes)
+                    text = "${(progress.progress * 100).toInt()}% - ${formatBytes(context, progress.downloadedBytes)} / ${
+                        formatBytes(context, progress.totalBytes)
                     }",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontFeatureSettings = "tnum",
@@ -1966,12 +1969,7 @@ fun ModelListScreen(navController: NavController, modifier: Modifier = Modifier)
     }
 }
 
-internal fun formatBytes(bytes: Long): String = when {
-    bytes < 1024 -> "$bytes B"
-    bytes < 1024 * 1024 -> "${bytes / 1024} KB"
-    bytes < 1024 * 1024 * 1024 -> "${bytes / (1024 * 1024)} MB"
-    else -> String.format(Locale.US, "%.2f GB", bytes / (1024.0 * 1024.0 * 1024.0))
-}
+internal fun formatBytes(context: Context, bytes: Long): String = android.text.format.Formatter.formatShortFileSize(context, bytes)
 
 /**
  * Status strip shown above the tabs while connected-device mode is active:
@@ -2212,7 +2210,7 @@ fun ModelCard(
                     ) {
                         InfoChip(
                             icon = Icons.Default.SdStorage,
-                            label = model.approximateSize,
+                            label = model.approximateSize.replace("GB", stringResource(R.string.unit_gigabytes)),
                             color = secondaryContent,
                         )
                         InfoChip(
@@ -2244,7 +2242,7 @@ fun ModelCard(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.CheckCircle,
-                                        contentDescription = "downloaded",
+                                        contentDescription = stringResource(R.string.downloaded),
                                         tint = statusColor,
                                         modifier = Modifier.size(16.dp),
                                     )
@@ -2313,15 +2311,7 @@ private fun InfoChip(icon: ImageVector, label: String, color: Color) {
     }
 }
 
-private fun formatFileSize(size: Long): String {
-    val df = DecimalFormat("#.##")
-    return when {
-        size < 1024 -> "${size}B"
-        size < 1024 * 1024 -> "${df.format(size / 1024.0)}KB"
-        size < 1024 * 1024 * 1024 -> "${df.format(size / (1024.0 * 1024.0))}MB"
-        else -> "${df.format(size / (1024.0 * 1024.0 * 1024.0))}GB"
-    }
-}
+private fun formatFileSize(context: Context, size: Long): String = android.text.format.Formatter.formatShortFileSize(context, size)
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -2624,7 +2614,7 @@ private fun FileManagerDialog(context: Context, onDismiss: () -> Unit, onFileDel
                                                     style = MaterialTheme.typography.titleSmall,
                                                 )
                                                 Text(
-                                                    text = formatFileSize(file.length()),
+                                                    text = formatFileSize(context, file.length()),
                                                     style = MaterialTheme.typography.bodySmall,
                                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                                 )
@@ -2672,7 +2662,7 @@ private fun FileManagerDialog(context: Context, onDismiss: () -> Unit, onFileDel
                     Text(
                         stringResource(
                             R.string.clear_cache_with_size,
-                            formatFileSize(cacheSize),
+                            formatFileSize(context, cacheSize),
                         ),
                     )
                 }
@@ -2834,7 +2824,7 @@ fun CustomNpuModelDialog(context: Context, onDismiss: () -> Unit, onModelAdded: 
 
                 selectedZipUri?.let { uri ->
                     Text(
-                        text = "Selected: ${getCleanFileName(uri)}",
+                        text = stringResource(R.string.selected_file_name, getCleanFileName(uri)),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -2940,7 +2930,7 @@ fun CustomModelDialog(
                             shapes = ButtonGroupDefaults.connectedLeadingButtonShapes(),
                             modifier = Modifier.weight(1f),
                         ) {
-                            Text("Clip Skip 1")
+                            Text(stringResource(R.string.clip_skip_value, 1))
                         }
                         ToggleButton(
                             checked = clipSkip == 2,
@@ -2948,7 +2938,7 @@ fun CustomModelDialog(
                             shapes = ButtonGroupDefaults.connectedTrailingButtonShapes(),
                             modifier = Modifier.weight(1f),
                         ) {
-                            Text("Clip Skip 2")
+                            Text(stringResource(R.string.clip_skip_value, 2))
                         }
                     }
                     Text(
@@ -2979,7 +2969,7 @@ fun CustomModelDialog(
 
                 selectedFileUri?.let { uri ->
                     Text(
-                        text = "Selected: ${getCleanFileName(uri)}",
+                        text = stringResource(R.string.selected_file_name, getCleanFileName(uri)),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -3046,7 +3036,7 @@ fun CustomModelDialog(
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Default.Close,
-                                                contentDescription = "delete",
+                                                contentDescription = stringResource(R.string.delete),
                                                 modifier = Modifier.size(16.dp),
                                                 tint = MaterialTheme.colorScheme.error,
                                             )
@@ -3428,7 +3418,7 @@ fun EmbeddingManagerDialog(
                                                 style = MaterialTheme.typography.titleSmall,
                                             )
                                             Text(
-                                                text = formatFileSize(file.length()),
+                                                text = formatFileSize(context, file.length()),
                                                 style = MaterialTheme.typography.bodySmall,
                                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                                             )
@@ -3568,7 +3558,7 @@ suspend fun convertCustomModel(
 
         loraFiles.forEachIndexed { index, loraFile ->
             val loraInputStream = context.contentResolver.openInputStream(loraFile.uri)
-                ?: throw Exception("Cannot open LoRA file ${index + 1}")
+                ?: throw Exception(context.getString(R.string.cannot_open_lora, index + 1))
             val loraFileTarget = File(modelDir, "lora.${index + 1}.safetensors")
             val loraWeightFile = File(modelDir, "lora.${index + 1}.weight")
 
@@ -3644,7 +3634,7 @@ suspend fun convertCustomModel(
         val executableFile = File(nativeDir, "libstable_diffusion_core.so")
 
         if (!executableFile.exists()) {
-            throw Exception("Executable not found: ${executableFile.absolutePath}")
+            throw Exception(context.getString(R.string.executable_not_found, executableFile.absolutePath))
         }
 
         var command = listOf(

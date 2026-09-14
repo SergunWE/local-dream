@@ -91,11 +91,13 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.get
+import io.github.xororz.localdream.R
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -163,6 +165,10 @@ fun DrawScreen(
     onNavigateBack: () -> Unit,
 ) {
     val context = LocalContext.current
+    val msgSaveFailed = stringResource(R.string.drawing_save_failed)
+    val msgUnknownError = stringResource(R.string.unknown_error)
+    val msgNewLayer = stringResource(R.string.drawing_new_layer)
+    val msgColorChanged = stringResource(R.string.drawing_color_changed)
     val scope = rememberCoroutineScope()
     var isSaving by remember { mutableStateOf(false) }
     val prefs = remember { context.getSharedPreferences("brush_prefs", Context.MODE_PRIVATE) }
@@ -217,12 +223,12 @@ fun DrawScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Drawing") },
+                title = { Text(stringResource(R.string.drawing)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack, enabled = !isSaving) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(R.string.back),
                         )
                     }
                 },
@@ -259,14 +265,14 @@ fun DrawScreen(
                                 } catch (e: CancellationException) {
                                     throw e
                                 } catch (e: Exception) {
-                                    Toast.makeText(context, "Failed to save drawing: ${e.message}", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(context, msgSaveFailed.format(e.message ?: msgUnknownError), Toast.LENGTH_LONG).show()
                                 } finally {
                                     isSaving = false
                                 }
                             }
                         },
                         enabled = !isSaving,
-                    ) { Text("Done") }
+                    ) { Text(stringResource(R.string.done)) }
                 },
             )
         },
@@ -351,7 +357,7 @@ fun DrawScreen(
                             forceNewLayerNextDraw = true
                             Toast.makeText(
                                 context,
-                                "New layer",
+                                msgNewLayer,
                                 Toast.LENGTH_SHORT,
                             ).show()
                         },
@@ -525,7 +531,7 @@ fun DrawScreen(
                                 } while (event.changes.any { it.pressed })
                                 if (isPickerMode) {
                                     isPickerMode = false
-                                    Toast.makeText(context, "Color changed", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, msgColorChanged, Toast.LENGTH_SHORT).show()
                                 } else if (!isMultiTouch && cloneMode != CloneMode.SELECTING) {
                                     currentPath?.let { finishedPath ->
                                         val snapColor = if (isEraserMode) Color.Transparent else brushColor
@@ -562,7 +568,7 @@ fun DrawScreen(
             ) {
                 Image(
                     bitmap = originalBitmap.asImageBitmap(),
-                    contentDescription = "Original Background",
+                    contentDescription = stringResource(R.string.drawing_background),
                     contentScale = ContentScale.Fit,
                     modifier = Modifier.fillMaxSize(),
                 )
@@ -683,8 +689,8 @@ fun DrawScreen(
     if (showClearDialog) {
         AlertDialog(
             onDismissRequest = { showClearDialog = false },
-            title = { Text(text = "Clear canvas") },
-            text = { Text(text = "Are you sure you want to delete all drawings?") },
+            title = { Text(text = stringResource(R.string.drawing_clear_canvas)) },
+            text = { Text(text = stringResource(R.string.drawing_clear_confirm)) },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -697,12 +703,12 @@ fun DrawScreen(
                         showClearDialog = false
                     },
                 ) {
-                    Text("Clear", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.tag_clear), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showClearDialog = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.cancel))
                 }
             },
         )
@@ -759,7 +765,7 @@ fun BrushToolsComponent(
                     valueRange = 5f..200f,
                     interactionSource = sizeInteractionSource,
                 )
-                Text(text = "Size: ${currentSize.toInt()}", style = MaterialTheme.typography.bodySmall)
+                Text(text = stringResource(R.string.drawing_size, currentSize.toInt()), style = MaterialTheme.typography.bodySmall)
             }
             Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
                 Slider(
@@ -768,7 +774,7 @@ fun BrushToolsComponent(
                     valueRange = 0.1f..1f,
                     interactionSource = alphaInteractionSource,
                 )
-                Text(text = "Transp.: ${(currentAlpha * 100).toInt()}%", style = MaterialTheme.typography.bodySmall)
+                Text(text = stringResource(R.string.drawing_alpha, (currentAlpha * 100).toInt()), style = MaterialTheme.typography.bodySmall)
             }
             Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
                 Slider(
@@ -777,7 +783,7 @@ fun BrushToolsComponent(
                     valueRange = 0f..100f,
                     interactionSource = blurInteractionSource,
                 )
-                Text(text = "Blur: ${currentBlur.toInt()}", style = MaterialTheme.typography.bodySmall)
+                Text(text = stringResource(R.string.drawing_blur, currentBlur.toInt()), style = MaterialTheme.typography.bodySmall)
             }
         }
 
@@ -800,7 +806,7 @@ fun BrushToolsComponent(
 
             // Pipette
             FilledIconToggleButton(checked = isPickerMode, onCheckedChange = onPickerModeChange) {
-                Icon(imageVector = Icons.Default.Colorize, contentDescription = "Pipette")
+                Icon(imageVector = Icons.Default.Colorize, contentDescription = stringResource(R.string.drawing_pipette))
             }
 
             // Stamp / Clone
@@ -812,26 +818,26 @@ fun BrushToolsComponent(
                         CloneMode.DRAWING -> Icons.Default.Brush
                     },
                     contentDescription = when (cloneMode) {
-                        CloneMode.OFF -> "Stamp disabled"
-                        CloneMode.SELECTING -> "Selecting"
-                        CloneMode.DRAWING -> "Drawing"
+                        CloneMode.OFF -> stringResource(R.string.stamp_disabled)
+                        CloneMode.SELECTING -> stringResource(R.string.stamp_selecting)
+                        CloneMode.DRAWING -> stringResource(R.string.stamp_drawing)
                     },
                 )
             }
 
             // Eraser
             FilledIconToggleButton(checked = isEraserMode, onCheckedChange = onEraserModeChange) {
-                Icon(imageVector = Icons.Default.ContentCut, contentDescription = "Eraser")
+                Icon(imageVector = Icons.Default.ContentCut, contentDescription = stringResource(R.string.drawing_eraser))
             }
 
             // New layer
             FilledIconToggleButton(checked = false, onCheckedChange = { onNewLayerClick() }) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "New layer")
+                Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.drawing_new_layer))
             }
 
             // Undo
             FilledIconToggleButton(checked = false, onCheckedChange = { onUndo() }) {
-                Icon(imageVector = Icons.AutoMirrored.Default.Undo, contentDescription = "Undo")
+                Icon(imageVector = Icons.AutoMirrored.Default.Undo, contentDescription = stringResource(R.string.undo))
             }
         }
 
@@ -844,7 +850,7 @@ fun BrushToolsComponent(
         ) {
             // Zoom
             FilledIconToggleButton(checked = isZoomMode, onCheckedChange = onZoomModeChange) {
-                Icon(imageVector = Icons.Default.Search, contentDescription = "Zoom")
+                Icon(imageVector = Icons.Default.Search, contentDescription = stringResource(R.string.drawing_zoom))
             }
 
             // Touch mode
@@ -852,12 +858,12 @@ fun BrushToolsComponent(
                 checked = !isTouchpadMode,
                 onCheckedChange = { isChecked -> onTouchpadModeChange(!isChecked) },
             ) {
-                Icon(imageVector = Icons.Default.TouchApp, contentDescription = "Touch mode")
+                Icon(imageVector = Icons.Default.TouchApp, contentDescription = stringResource(R.string.drawing_touch_mode))
             }
 
             // Clear all
             FilledIconToggleButton(checked = false, onCheckedChange = { onClearAll() }) {
-                Icon(imageVector = Icons.Default.Delete, contentDescription = "Clear all")
+                Icon(imageVector = Icons.Default.Delete, contentDescription = stringResource(R.string.drawing_clear_all))
             }
         }
     }
@@ -878,7 +884,7 @@ fun SimpleColorPickerDialog(initialColor: Color, onColorSelected: (Color) -> Uni
     val currentSelectedColor = remember(hue, saturation, value) { Color.hsv(hue, saturation, value) }
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Select color") },
+        title = { Text(stringResource(R.string.drawing_select_color)) },
         text = {
             Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
                 Box(
@@ -962,7 +968,7 @@ fun SimpleColorPickerDialog(initialColor: Color, onColorSelected: (Color) -> Uni
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    Text("Result:")
+                    Text(stringResource(R.string.drawing_color_result))
                     Box(
                         modifier = Modifier
                             .size(60.dp, 30.dp)
@@ -976,8 +982,8 @@ fun SimpleColorPickerDialog(initialColor: Color, onColorSelected: (Color) -> Uni
             Button(onClick = {
                 onColorSelected(currentSelectedColor)
                 onDismiss()
-            }) { Text("Select") }
+            }) { Text(stringResource(R.string.select)) }
         },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) } },
     )
 }

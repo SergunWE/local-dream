@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Local Dream</string>
+
+    <!-- Models -->
+    <string name="anythingv5_description">Генерация изображений в стиле аниме</string>
+    <string name="cyberrealistic_description">Генерация реалистичных изображений</string>
+    <string name="illustriousv16_description">WAI Illustrious SDXL v16</string>
+    <string name="dmd2_description">Объединена с LoRA DMD2</string>
+    <string name="capture_logs">Записывать логи</string>
+    <string name="capture_logs_hint">Собирать логи приложения во время работы модели и показывать их после выхода</string>
+    <string name="listen_on_all_addresses">Доступ по локальной сети</string>
+    <string name="listen_on_all_addresses_hint">Разрешить другим устройствам в этой сети подключаться к движку генерации (порт 8081). Если выключено, доступ возможен только с этого устройства.</string>
+    <string name="tag_autocomplete">Автодополнение тегов</string>
+    <string name="tag_autocomplete_hint">Предлагать и исправлять теги при вводе промптов</string>
+    <string name="tag_alias_label">Псевдоним</string>
+    <string name="tag_correction_label">Исправление</string>
+    <string name="tag_embedding_label">Эмбеддинг</string>
+    <string name="tag_main_dictionary">Словарь тегов</string>
+    <string name="tag_main_dictionary_hint">Не импортирован. Подсказки появятся после импорта CSV (например, danbooru.csv).</string>
+    <string name="tag_translation_dictionary">Словарь переводов (необязательно)</string>
+    <string name="tag_translation_dictionary_hint">Не импортирован. Импортируйте CSV с 2 или 3 столбцами для поиска на своём языке.</string>
+    <plurals name="tag_imported_status">
+        <item quantity="one">%1$s · %2$d запись</item>
+        <item quantity="few">%1$s · %2$d записи</item>
+        <item quantity="many">%1$s · %2$d записей</item>
+        <item quantity="other">%1$s · %2$d записей</item>
+    </plurals>
+    <string name="tag_import">Импорт CSV</string>
+    <string name="tag_reimport">Заменить</string>
+    <string name="tag_clear">Очистить</string>
+    <plurals name="tag_import_success">
+        <item quantity="one">Импортирована %1$d запись</item>
+        <item quantity="few">Импортированы %1$d записи</item>
+        <item quantity="many">Импортировано %1$d записей</item>
+        <item quantity="other">Импортировано %1$d записей</item>
+    </plurals>
+    <string name="tag_import_failed">Не удалось импортировать</string>
+    <string name="sdxl_lowram">SDXL: экономия памяти</string>
+    <string name="sdxl_lowram_hint">Только для SDXL: загружать каждую модель по мере необходимости и освобождать память после использования. Требуется на устройствах с ОЗУ менее 16 ГБ. Предпросмотр процесса генерации недоступен.</string>
+    <string name="anima_lowram">Anima: экономия памяти</string>
+    <string name="anima_lowram_hint">Только для Anima: загружать каждую модель по мере необходимости и освобождать память после использования. Требуется на устройствах с ОЗУ менее 16 ГБ. Предпросмотр процесса генерации недоступен.</string>
+    <string name="anima_seq_dit">Anima: последовательная загрузка DiT</string>
+    <string name="anima_seq_dit_hint">Только при экономии памяти Anima: не держать обе половины DiT в памяти одновременно. Включите, если на устройстве с 12 ГБ ОЗУ модель всё ещё не запускается. Каждый шаг будет выполняться медленнее.</string>
+    <string name="captured_logs_title">Записанные логи</string>
+    <string name="log_saved">Сохранено в %1$s</string>
+    <string name="log_save_failed">Не удалось сохранить лог</string>
+    <string name="no_logs_captured">Логи не записаны</string>
+    <string name="chilloutmix_description">Серия ChilloutMix</string>
+    <string name="qteamix_description">Аниме в стиле чиби</string>
+    <string name="cuteyukimix_description">Аниме в милом стиле</string>
+    <string name="absolutereality_description">Генерация реалистичных изображений</string>
+    <!-- Models -->
+    <string name="backend_notify">Движок генерации запущен</string>
+    <string name="backend_notify_title">Движок Stable Diffusion</string>
+    <string name="generating_notify">Генерация изображения…</string>
+
+    <!-- Common -->
+    <string name="settings">Настройки</string>
+    <string name="appearance">Оформление</string>
+    <string name="theme_preset">Цветовая тема</string>
+    <string name="theme_preset_hint">Используется, когда динамические цвета выключены</string>
+    <string name="dynamic_color">Динамические цвета</string>
+    <string name="dynamic_color_hint">Подбирать цвета под обои (Android 12+)</string>
+    <string name="dark_mode">Тема интерфейса</string>
+    <string name="dark_mode_system">Системная</string>
+    <string name="dark_mode_light">Светлая</string>
+    <string name="dark_mode_dark">Тёмная</string>
+    <string name="theme_tangerine">Мандарин</string>
+    <string name="theme_forest">Лес</string>
+    <string name="theme_ocean">Океан</string>
+    <string name="theme_amber">Янтарь</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="cancel">Отмена</string>
+    <string name="save">Сохранить</string>
+    <string name="back">Назад</string>
+    <string name="close">Закрыть</string>
+    <string name="delete">Удалить</string>
+    <string name="delete_model">Удалить модель</string>
+    <string name="delete_confirm">Удалить выбранные модели (%s)? Это действие нельзя отменить.</string>
+    <string name="got_it">Понятно</string>
+    <string name="yes">Да</string>
+    <string name="about_app">Об приложении</string>
+    <string name="must_read">Приложение поддерживает генерацию изображений Stable Diffusion на CPU/GPU и некоторых NPU Qualcomm.\n\nМодели SD1.5 поддерживаются на NPU Snapdragon с архитектурой Hexagon V68 и новее.\n\nМодели SDXL поддерживаются на Snapdragon 8 Gen 3 и новее.\n\nНа остальных процессорах доступна только работа на CPU/GPU.\n\nИсходный код проекта открыт: https://github.com/xororz/local-dream. Там можно посмотреть код или сообщить о проблеме.\n\nДокументация: https://ld.chino.icu</string>
+    <string name="help">Помощь</string>
+    <string name="more_options">Ещё</string>
+
+    <!-- Model List Screen -->
+    <string name="available_models">Доступные модели</string>
+    <plurals name="selected_items">
+        <item quantity="one">Выбрано: %d</item>
+        <item quantity="few">Выбрано: %d</item>
+        <item quantity="many">Выбрано: %d</item>
+        <item quantity="other">Выбрано: %d</item>
+    </plurals>
+    <string name="download">Скачать</string>
+    <string name="download_from">Источник загрузки</string>
+    <string name="download_settings_hint">Загрузка с Hugging Face или другого зеркала</string>
+    <string name="source_huggingface">Hugging Face</string>
+    <string name="source_hf_mirror">hf-mirror</string>
+    <string name="source_custom">Другой</string>
+    <string name="downloaded">Скачано</string>
+    <string name="delete_success">Удалено</string>
+    <string name="delete_failed">Не удалось удалить</string>
+    <string name="cannot_download">Загрузка недоступна</string>
+    <string name="cannot_download_hint">Уже загружается другая модель. Подождите.</string>
+    <string name="download_model">Скачать модель</string>
+    <string name="download_model_hint">Скачать %s? Не закрывайте приложение во время загрузки.\n\nЗагрузка NPU-моделей доступна для всех процессоров Qualcomm, но старые процессоры могут не поддерживать их запуск.</string>
+    <string name="download_done">Загрузка завершена</string>
+    <string name="unsupport_npu">Устройство не поддерживается. Попробуйте модель для CPU.</string>
+    <string name="cpu_models">Модели для CPU</string>
+    <string name="npu_models">Модели для NPU</string>
+    <string name="no_cpu_models">Нет моделей</string>
+    <string name="no_npu_models">Нет моделей</string>
+    <string name="img2img_hint">Генерация на основе изображения (img2img). Выключите, если функция не нужна или возникают проблемы. При выключении также недоступны выбор соотношения сторон SDXL и UltraFix.</string>
+    <string name="show_process">Показывать процесс генерации</string>
+    <string name="show_process_hint">Только для NPU-моделей. Показывать промежуточные этапы генерации. Это замедляет работу; включайте, если хотите наблюдать за процессом.</string>
+    <string name="preview_stride">Интервал предпросмотра</string>
+    <plurals name="preview_stride_hint">
+        <item quantity="one">Обновлять предпросмотр через %d шаг (1–10).</item>
+        <item quantity="few">Обновлять предпросмотр через %d шага (1–10).</item>
+        <item quantity="many">Обновлять предпросмотр через %d шагов (1–10).</item>
+        <item quantity="other">Обновлять предпросмотр через %d шагов (1–10).</item>
+    </plurals>
+    <!-- Crop Screen -->
+    <string name="crop_image">Обрезка изображения</string>
+    <string name="crop_hint">Перетаскивайте границы области обрезки</string>
+
+    <!-- Inpaint Screen -->
+    <string name="set_inpaint_area">Область дорисовки</string>
+    <string name="inpaint_hint">Закрасьте области, которые нужно перерисовать</string>
+    <string name="undo">Отменить</string>
+    <string name="redo">Повторить</string>
+    <string name="brush_color">Цвет кисти</string>
+
+    <!-- Run Screen -->
+    <string name="prompt_settings">Промпты</string>
+    <string name="advanced_settings">Дополнительно</string>
+    <string name="advanced_settings_title">Дополнительные настройки</string>
+    <string name="image_prompt">Промпт для генерации</string>
+    <string name="negative_prompt">Негативный промпт</string>
+    <string name="generate_image">Создать</string>
+    <string name="generating">Генерация изображения</string>
+    <string name="no_results">Результатов пока нет</string>
+    <string name="no_results_hint">Сначала создайте изображение</string>
+    <string name="go_to_generate">Создать</string>
+    <string name="prompt_tab">Промпт</string>
+    <string name="result_tab">Результат</string>
+    <string name="history_tab">История</string>
+    <string name="no_history">История генерации пуста</string>
+    <string name="no_history_hint">Изображения появятся здесь после генерации</string>
+    <plurals name="selected_items_count">
+        <item quantity="one">Выбран %d элемент</item>
+        <item quantity="few">Выбрано %d элемента</item>
+        <item quantity="many">Выбрано %d элементов</item>
+        <item quantity="other">Выбрано %d элементов</item>
+    </plurals>
+    <string name="generation_params_title">Параметры генерации</string>
+    <string name="delete_image">Удалить изображение</string>
+    <string name="delete_image_confirm">Удалить это изображение? Это действие нельзя отменить.</string>
+    <string name="deleted">Удалено</string>
+    <string name="delete_failed_message">Не удалось удалить</string>
+    <string name="batch_delete">Удалить выбранные</string>
+    <plurals name="batch_delete_confirm">
+        <item quantity="one">Удалить %d выбранное изображение? Это действие нельзя отменить.</item>
+        <item quantity="few">Удалить %d выбранных изображения? Это действие нельзя отменить.</item>
+        <item quantity="many">Удалить %d выбранных изображений? Это действие нельзя отменить.</item>
+        <item quantity="other">Удалить %d выбранных изображений? Это действие нельзя отменить.</item>
+    </plurals>
+    <string name="batch_save">Сохранить выбранные</string>
+    <plurals name="batch_save_confirm">
+        <item quantity="one">Сохранить %d выбранное изображение в галерею?</item>
+        <item quantity="few">Сохранить %d выбранных изображения в галерею?</item>
+        <item quantity="many">Сохранить %d выбранных изображений в галерею?</item>
+        <item quantity="other">Сохранить %d выбранных изображений в галерею?</item>
+    </plurals>
+    <string name="batch_saving_progress">Сохранение %1$d / %2$d</string>
+    <plurals name="saved_count">
+        <item quantity="one">Сохранено %d изображение</item>
+        <item quantity="few">Сохранено %d изображения</item>
+        <item quantity="many">Сохранено %d изображений</item>
+        <item quantity="other">Сохранено %d изображений</item>
+    </plurals>
+    <string name="saved_count_with_failed" tools:ignore="PluralsCandidate">Сохранено изображений: %1$d. Ошибок: %2$d</string>
+    <plurals name="deleted_count">
+        <item quantity="one">Удалён %d элемент</item>
+        <item quantity="few">Удалено %d элемента</item>
+        <item quantity="many">Удалено %d элементов</item>
+        <item quantity="other">Удалено %d элементов</item>
+    </plurals>
+    <string name="deleted_count_with_failed" tools:ignore="PluralsCandidate">Удалено элементов: %1$d. Ошибок: %2$d</string>
+    <string name="confirm_exit">Подтвердите выход</string>
+    <string name="confirm_exit_hint">Идёт генерация. Выйти?</string>
+    <string name="interrupt_generation">Прервать генерацию</string>
+    <string name="interrupt_generation_hint">Идёт генерация. Прервать её?</string>
+    <string name="generation_interrupted">Генерация прервана</string>
+    <string name="reset">Сбросить</string>
+    <string name="reset_hint">Сбросить все параметры? Это действие нельзя отменить.</string>
+    <string name="media_permission_hint">Для генерации img2img нужен доступ к изображениям</string>
+    <string name="backend_failed">Не удалось запустить движок генерации. Возможно, устройство не поддерживается.</string>
+
+    <!-- Parameter Settings -->
+    <string name="generation_params">Параметры генерации</string>
+    <string name="steps">Шаги: %d</string>
+    <string name="image_size">Размер изображения: %1$d×%2$d</string>
+    <string name="random_seed">Сид (необязательно)</string>
+    <string name="use_last_seed">Последний сид (%s)</string>
+    <string name="batch_count">Количество изображений: %d</string>
+    <string name="reproduce">Воспроизвести</string>
+    <string name="reproduce_params_title">Воспроизвести параметры</string>
+    <string name="reproduce_params_hint">Выберите параметры для переноса на страницу промпта.</string>
+    <string name="select_all">Выбрать всё</string>
+    <string name="deselect_all">Снять выделение</string>
+    <string name="result_params">шаги: %1$s / CFG: %2$.1f / сид: %3$s</string>
+    <string name="result_params_2">размер: %1$s×%2$s / время: %3$s / %4$s</string>
+    <string name="params_detail">Подробности</string>
+    <string name="basic_params">Основное</string>
+    <string name="basic_model">Модель: %s</string>
+    <string name="basic_step">Шаги: %d</string>
+    <string name="basic_size">Размер: %1$d×%2$d</string>
+    <string name="basic_seed">Сид: %s</string>
+    <string name="basic_runtime">Вычислительный движок: %s</string>
+    <string name="basic_mode">Режим: %s</string>
+    <string name="basic_denoise">Сила перерисовки: %.2f</string>
+    <string name="basic_time">Время: %s</string>
+    <string name="opencl_warning">Первый запуск на GPU при каждом разрешении будет медленным из-за создания кеша. Последующие запуски будут значительно быстрее.</string>
+
+    <!-- Parameter Share -->
+    <string name="share">Поделиться</string>
+    <string name="share_params_title">Поделиться параметрами</string>
+    <string name="share_params_hint">Выберите параметры для копирования. Результат попадёт в буфер обмена — его можно вставить в любое приложение.</string>
+    <string name="share_use_base64">Кодирование Base64</string>
+    <string name="share_use_base64_hint">Закодировать данные в Base64.</string>
+    <string name="share_copy_to_clipboard">Копировать</string>
+    <string name="share_copied">Параметры скопированы</string>
+    <string name="share_field_steps">Шаги</string>
+    <string name="share_field_cfg">CFG</string>
+    <string name="share_field_seed">Сид</string>
+    <string name="share_field_denoise">Сила перерисовки</string>
+    <string name="share_field_mode">Режим</string>
+    <string name="import_params_title">Применить параметры</string>
+    <string name="import_params_hint">В буфере обмена найдены параметры генерации. Выберите, какие применить.</string>
+    <string name="import_clear_clipboard">Очистить буфер после закрытия</string>
+    <string name="import_clear_clipboard_hint">Удалить данные параметров из буфера обмена после закрытия диалога, даже при отмене.</string>
+    <string name="import_apply">Применить</string>
+    <string name="import_applied">Параметры применены</string>
+    <string name="import_from_clipboard">Импорт из буфера</string>
+    <string name="import_no_params">В буфере обмена нет параметров генерации</string>
+
+    <!-- Error Messages -->
+    <string name="error_download_failed">Ошибка загрузки: %s</string>
+    <string name="error_request_failed">Ошибка запроса: %s</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
+
+    <!-- Info Messages -->
+    <string name="image_saved">Изображение сохранено в галерею</string>
+    <string name="loading_model">Загрузка модели…</string>
+
+    <!-- File Manager -->
+    <string name="file_manager">Файлы моделей</string>
+    <string name="delete_file">Удалить файл</string>
+    <string name="delete_file_confirm">Удалить файл «%s»?</string>
+    <string name="file_deleted">Файл удалён</string>
+    <string name="no_model_files">Файлы моделей не найдены</string>
+    <string name="loading_files">Загрузка файлов…</string>
+    <string name="back_to_folders">К папкам</string>
+    <string name="model_folder">Модель: %s</string>
+    <plurals name="file_count">
+        <item quantity="one">%d файл</item>
+        <item quantity="few">%d файла</item>
+        <item quantity="many">%d файлов</item>
+        <item quantity="other">%d файлов</item>
+    </plurals>
+    <string name="clear_cache">Очистить кеш</string>
+    <string name="clear_cache_with_size">Очистить кеш (%s)</string>
+    <string name="clear_cache_confirm">Очистить кеш этой модели? Эмбеддинги промптов и ядра OpenCL будут созданы заново при следующем запуске.</string>
+    <string name="cache_cleared">Кеш очищен</string>
+
+    <!-- Settings -->
+    <string name="download_source">Источник загрузки</string>
+    <string name="feature_settings">Функции</string>
+
+    <!-- Custom Model -->
+    <string name="add_custom_model">Добавить свою модель</string>
+    <string name="add_custom_npu_model">Добавить свою NPU-модель</string>
+    <string name="custom_model">Пользовательская модель</string>
+    <string name="custom_model_name">Название модели</string>
+    <string name="custom_model_name_hint">Введите название модели</string>
+    <string name="custom_model_id_reserved">Это название занято встроенной моделью. Выберите другое.</string>
+    <string name="pin_to_top">Закрепить сверху</string>
+    <string name="unpin_from_top">Открепить</string>
+    <string name="rename">Переименовать</string>
+    <string name="rename_model">Переименовать модель</string>
+    <string name="rename_model_label">Новое название</string>
+    <string name="rename_name_exists">Модель с таким названием уже есть.</string>
+    <string name="rename_success">Переименовано</string>
+    <string name="rename_failed">Не удалось переименовать</string>
+    <string name="select_model_file">Выбрать файл модели</string>
+    <string name="select_zip_file">Выбрать ZIP-файл</string>
+    <string name="zip_file_selected">ZIP-файл выбран</string>
+    <string name="file_selected">Файл выбран</string>
+    <string name="add_model">Добавить модель</string>
+    <string name="custom_model_hint">Поддерживаются только файлы safetensors с архитектурой SD1.5</string>
+    <string name="custom_npu_model_hint">Выберите ZIP-архив с файлами NPU-модели. Доступно только на устройствах Qualcomm. Модели можно найти на https://huggingface.co/xororz/sd-qnn и https://huggingface.co/xororz/sdxl-qnn или в других репозиториях Hugging Face.</string>
+    <string name="converting">Конвертация…</string>
+    <string name="model_conversion_success">Модель сконвертирована</string>
+    <string name="model_conversion_failed">Ошибка конвертации: %s</string>
+    <string name="npu_model_added_success">NPU-модель добавлена</string>
+    <string name="npu_model_add_failed">Не удалось добавить NPU-модель: %s</string>
+    <string name="preparing_model">Подготовка модели…</string>
+    <string name="preparing_npu_model">Подготовка NPU-модели…</string>
+    <string name="extracting_zip_file">Распаковка ZIP-архива…</string>
+    <string name="copying_model_file">Копирование файла модели…</string>
+    <string name="copying_base_files">Копирование базовых файлов…</string>
+    <string name="converting_model">Конвертация модели…</string>
+    <string name="clip_skip_hint">Количество пропускаемых слоёв CLIP (1 или 2)</string>
+    <string name="lora_files_optional">Файлы LoRA (необязательно)</string>
+    <string name="add_lora_file">Добавить файл LoRA</string>
+    <string name="selected_lora_files">Выбранные файлы LoRA:</string>
+    <string name="copying_lora_files">Копирование файлов LoRA…</string>
+    <string name="lora_weight">Вес:</string>
+
+    <!-- Embedding Manager -->
+    <string name="embedding_manager">Эмбеддинги</string>
+    <string name="no_embeddings">Файлы эмбеддингов не найдены</string>
+    <string name="import_embedding">Импорт эмбеддинга</string>
+    <string name="delete_embedding">Удалить эмбеддинг</string>
+    <string name="delete_embedding_confirm">Удалить эмбеддинг «%s»?</string>
+    <string name="embedding_deleted">Эмбеддинг удалён</string>
+    <string name="embedding_imported">Эмбеддинг импортирован</string>
+    <string name="embedding_import_failed">Не удалось импортировать эмбеддинг: %s</string>
+    <string name="only_safetensors_supported">Поддерживаются только файлы .safetensors</string>
+
+    <!-- Upscaler -->
+    <string name="select_upscaler_model">Модель увеличения разрешения</string>
+    <string name="upscale_scale_label">Масштаб</string>
+    <string name="upscale_factor">%d×</string>
+    <string name="upscale_scale_hint">Модель всегда увеличивает изображение в 4 раза. При выборе 2× или 3× этот результат дополнительно уменьшается.</string>
+    <string name="upscaling_image">Увеличение разрешения…</string>
+    <string name="upscale_failed">Не удалось увеличить разрешение: %s</string>
+
+    <!-- UltraFix -->
+    <string name="ultrafix">UltraFix</string>
+    <string name="ultrafix_confirm_hint">UltraFix улучшает изображение с помощью img2img по фрагментам. Рекомендуется отношение шагов перерисовки к общему числу шагов не выше 0,5. Лучше всего работает с аниме-моделями — используйте для них и только для лучших изображений. Обработка занимает много времени; не запускайте её на перегретом устройстве.</string>
+    <string name="ultrafix_seed_random">Случайный</string>
+    <string name="ultrafix_denoise_steps_label">Шаги перерисовки: %d</string>
+    <string name="ultrafix_source_info">Изображение: %1$d×%2$d  ·  Фрагмент: %3$d пикс.</string>
+    <string name="ultrafix_restore_defaults">Сбросить настройки</string>
+    <string name="ultrafix_other_params_hint">Промпт, CFG, алгоритм и сид берутся со страницы промпта — изменяйте их там.</string>
+    <string name="ultrafix_preparing">Подготовка UltraFix…</string>
+    <string name="ultrafix_failed">Ошибка UltraFix: %s</string>
+    <string name="ultrafix_quality_denoise_desc">Перерисовка с промптом: %s. Выключите, чтобы использовать промпт со страницы генерации.</string>
+    <string name="download_model_first">Сначала скачайте модель</string>
+    <string name="upscaler_anime">Аниме</string>
+    <string name="upscaler_anime_desc">Для аниме и мультяшных изображений</string>
+    <string name="upscaler_realistic">Реализм</string>
+    <string name="upscaler_realistic_desc">Для реалистичных фотографий</string>
+    <string name="image_upscale">Увеличение разрешения</string>
+    <string name="upscale">Увеличить</string>
+    <string name="add_image">Добавить изображение</string>
+    <string name="clear_image">Убрать изображение</string>
+    <string name="save_image">Сохранить изображение</string>
+    <string name="selected_image">Выбранное изображение</string>
+    <string name="upscaled_image">Увеличенное изображение</string>
+    <string name="click_to_add_image">Нажмите, чтобы добавить изображение для увеличения</string>
+    <string name="image_resolution_too_large">Слишком большое изображение (%1$d×%2$d). Выберите изображение меньше 2048×2048.</string>
+    <string name="failed_to_load_image">Не удалось загрузить изображение: %s</string>
+    <string name="model_download_channel">Загрузка моделей</string>
+    <string name="model_download_channel_desc">Уведомления о ходе загрузки моделей</string>
+    <string name="downloading_model">Загрузка %s</string>
+    <string name="download_complete">Загрузка завершена</string>
+    <string name="download_failed">Не удалось скачать</string>
+    <string name="update">Обновить</string>
+    <string name="upgrade_model">Обновить модель</string>
+    <string name="upgrade_model_hint">Доступна новая версия %s. Обновить?</string>
+    <string name="download_background_hint">Загрузка продолжается в фоне. Можно пользоваться другими приложениями.</string>
+    <string name="switch_resolution">Изменить разрешение</string>
+    <string name="switch_resolution_hint">Изменение разрешения перезапустит движок и прервёт текущую генерацию. Продолжить?</string>
+    <string name="resolution">Разрешение</string>
+    <string name="aspect_ratio">Соотношение сторон</string>
+    <string name="aspect_ratio_custom">Своё</string>
+    <string name="aspect_ratio_custom_title">Своё соотношение сторон</string>
+    <string name="aspect_ratio_custom_hint">Введите два положительных целых числа (например, 21 9)</string>
+    <string name="aspect_ratio_invalid">Введите два положительных целых числа.</string>
+    <string name="scheduler">Алгоритм генерации</string>
+    <string name="extracting">Распаковка…</string>
+
+    <!-- History migration -->
+    <string name="migration_title">Импорт истории</string>
+    <string name="migration_subtitle">При первом запуске нужно импортировать существующую историю. Не закрывайте приложение до завершения.</string>
+    <string name="migration_progress">%1$d / %2$d</string>
+    <string name="migration_current_model">Текущая модель: %1$s</string>
+    <string name="migration_failed_title">Не удалось импортировать</string>
+    <string name="migration_retry">Повторить</string>
+    <string name="migration_skip">Пропустить</string>
+    <string name="migration_skip_warning">Если пропустить импорт, старая история не будет отображаться в новом разделе истории.</string>
+
+    <!-- History backup -->
+    <string name="backup_restore">Резервная копия</string>
+    <string name="backup_hint">Экспортируйте историю генерации (изображения и параметры) в ZIP-архив или импортируйте копию, чтобы объединить её с текущей историей. Дубликаты пропускаются автоматически.</string>
+    <string name="backup_stats_all">Всего изображений: %1$d (%2$s)</string>
+    <string name="backup_stats_favorites">В избранном: %1$d (%2$s)</string>
+    <string name="backup_scope_all">Всё</string>
+    <string name="backup_scope_favorites">Только избранное</string>
+    <string name="backup_export">Экспорт</string>
+    <string name="backup_import">Импорт</string>
+    <string name="backup_preparing">Подготовка…</string>
+    <string name="backup_exporting">Экспорт %1$d / %2$d</string>
+    <string name="backup_importing">Импорт %1$d / %2$d</string>
+    <string name="backup_export_done">Экспортировано изображений: %1$d</string>
+    <string name="backup_import_done">Импортировано: %1$d. Пропущено дубликатов: %2$d. Ошибок: %3$d</string>
+    <string name="backup_import_orphan_note">Не установлено моделей из этой копии: %1$d. Их история импортирована и доступна через фильтр истории «Все модели».</string>
+    <string name="backup_failed">Ошибка операции: %1$s</string>
+    <string name="backup_invalid_file">Это не файл резервной копии Local Dream</string>
+    <string name="delete_keep_history">Сохранить историю генерации</string>
+    <string name="delete_keep_history_hint">История останется доступной после удаления модели</string>
+
+    <!-- History filter -->
+    <string name="history_filter_apply">Применить</string>
+    <string name="history_filter_reset">Сбросить</string>
+    <string name="history_filter_models">Модели</string>
+    <string name="history_filter_current_model_only">Только текущая модель</string>
+    <string name="history_filter_all_models">Все модели</string>
+    <string name="history_filter_all">Все</string>
+    <string name="history_filter_favorites">Избранное</string>
+    <string name="history_filter_favorite">В избранном</string>
+    <string name="history_filter_not_favorite">Не в избранном</string>
+    <string name="history_filter_modes">Режимы</string>
+    <string name="history_filter_time_range">Период</string>
+    <string name="history_filter_time_any">За всё время</string>
+    <string name="history_filter_size">Размер</string>
+    <string name="history_filter_scheduler">Алгоритм генерации</string>
+    <string name="history_filter_device">Устройство</string>
+    <string name="history_filter_prompt_search">Промпт содержит…</string>
+    <string name="history_filter_sort">Сортировка</string>
+    <string name="history_filter_sort_desc">Сначала новые</string>
+    <string name="history_filter_sort_asc">Сначала старые</string>
+    <string name="history_view_filter">Фильтр</string>
+
+    <!-- Permissions -->
+    <string name="permission_storage_required">Для сохранения изображений нужен доступ к хранилищу</string>
+    <string name="permission_notification_required">Для фоновой генерации нужно разрешение на уведомления</string>
+
+    <!-- Run Screen extras -->
+    <string name="gpu_runtime_warning_title">Особенности работы GPU</string>
+    <string name="please_crop_first">Сначала обрежьте изображение</string>
+    <string name="no_image_available">Нет изображения</string>
+    <string name="image_load_failed">Не удалось загрузить изображение</string>
+
+    <!-- Report -->
+    <string name="report">Пожаловаться</string>
+    <string name="report_image_confirm">Сообщите, если считаете изображение неприемлемым. Изображение и параметры будут отправлены на сервер для проверки.</string>
+    <string name="report_success">Спасибо за обращение.</string>
+    <string name="report_failed">Не удалось отправить жалобу</string>
+
+    <!-- Error messages extras -->
+    <string name="error_title">Ошибка</string>
+    <string name="ok">ОК</string>
+    <string name="error_with_detail">Ошибка: %s</string>
+    <string name="save_failed_detail">Не удалось сохранить: %s</string>
+    <string name="img2img_failed_detail">Ошибка img2img: %s</string>
+    <string name="failed_to_start_backend">Не удалось запустить движок: %s</string>
+    <string name="executable_not_found">Исполняемый файл не найден: %s</string>
+    <string name="cannot_open_file">Не удалось открыть выбранный файл</string>
+    <string name="only_qualcomm_npu">Свои NPU-модели поддерживаются только на устройствах Qualcomm</string>
+    <string name="conversion_need_sd15">Используйте модель SD1.5 в формате safetensors</string>
+    <string name="converting_with_line">Конвертация: %s</string>
+
+    <!-- Temp file cleanup -->
+    <string name="clean_temp_files">Очистить временные файлы</string>
+    <string name="clean_temp_confirm">Удалить временные файлы объёмом %s (прерванные загрузки и рабочие буферы)?</string>
+    <string name="clean_temp_none">Нет временных файлов</string>
+    <string name="clean_temp_done">Освобождено %s</string>
+
+    <!-- Device link (remote control between two devices) -->
+    <string name="remote_link">Связь устройств</string>
+    <string name="remote_host_section">Режим хоста (модели работают здесь)</string>
+    <string name="remote_host_hint">Другое устройство с Local Dream в этой сети сможет просматривать модели этого устройства и запускать генерацию. В режиме хоста порты управления (8808) и генерации (8081) доступны в локальной сети.</string>
+    <string name="remote_host_start">Включить режим хоста</string>
+    <string name="remote_host_stop">Выключить режим хоста</string>
+    <string name="remote_host_addresses">Адрес этого устройства</string>
+    <string name="remote_no_network">Сетевой адрес не найден. Подключитесь к Wi-Fi.</string>
+    <string name="remote_host_serving">Запущена модель: %1$s</string>
+    <string name="remote_host_no_model">Модель не загружена</string>
+    <string name="remote_connect_section">Подключение к хосту (управление отсюда)</string>
+    <string name="remote_connect_hint">Введите адрес, показанный на устройстве-хосте. В списке появятся его модели, и генерация будет выполняться на нём.</string>
+    <string name="remote_host_field">Адрес хоста</string>
+    <string name="remote_connect">Подключиться</string>
+    <string name="remote_disconnect">Отключиться</string>
+    <string name="remote_refresh_models">Обновить список моделей</string>
+    <string name="remote_refresh_models_short">Обновить</string>
+    <string name="remote_connect_failed_unreachable">Хост недоступен. Проверьте адрес и убедитесь, что режим хоста включён.</string>
+    <string name="remote_connected_to">Подключено к %1$s</string>
+    <string name="remote_banner_connected">Модели с %1$s</string>
+    <string name="remote_banner_offline">Хост недоступен</string>
+    <string name="remote_select_failed">Не удалось запустить модель на хосте</string>
+    <string name="remote_port_hint">Порт управления по умолчанию: %1$d. Для другого порта введите адрес:порт.</string>
+    <string name="remote_host_notify_title">Режим хоста включён</string>
+    <string name="remote_host_notify">Local Dream доступен для управления по локальной сети</string>
+    <string name="remote_screen_shield">Чёрный экран (без сна)</string>
+    <string name="remote_screen_shield_exit">Нажмите для выхода</string>
+    <string name="ultrafix_import_action">Импорт изображения</string>
+    <string name="ultrafix_import_title">Импорт изображения для UltraFix</string>
+    <string name="ultrafix_import_requirement">Длинная сторона — до %1$d. Для UltraFix длинная сторона должна быть больше 1024, а короткая — не меньше %2$d. Небольшое изображение можно сначала увеличить.</string>
+    <string name="ultrafix_import_output">Размер результата: %1$d×%2$d</string>
+    <string name="ultrafix_import_scale">Масштаб: %1$d%%</string>
+    <string name="ultrafix_longpress_hint">Совет: удерживайте кнопку увеличения или UltraFix для импорта изображения с устройства.</string>
+
+    <!-- Language and remaining interface text -->
+    <string name="language">Язык</string>
+    <string name="language_russian">Русский</string>
+    <string name="language_english">English</string>
+    <string name="done">Готово</string>
+    <string name="original_image">Исходное изображение</string>
+    <string name="brush_tool">Кисть</string>
+    <string name="drawing_eraser">Ластик</string>
+    <string name="drawing_background">Исходный фон</string>
+    <string name="drawing_pipette">Пипетка</string>
+    <string name="drawing_new_layer">Новый слой</string>
+    <string name="drawing_zoom">Масштаб</string>
+    <string name="drawing_touch_mode">Режим касания</string>
+    <string name="drawing_clear_all">Очистить всё</string>
+    <string name="preview_image">Предпросмотр изображения</string>
+    <string name="reset_zoom">Сбросить масштаб</string>
+    <string name="add_tag">Добавить тег</string>
+    <string name="clear_tag">Удалить тег</string>
+    <string name="increase_weight">Увеличить вес</string>
+    <string name="decrease_weight">Уменьшить вес</string>
+    <string name="close_suggestions">Закрыть подсказки</string>
+    <string name="toggle_favorite">Изменить отметку избранного</string>
+    <string name="generation_preview">Предпросмотр генерации</string>
+    <string name="cropped_image">Обрезанное изображение</string>
+    <string name="drawing">Рисование</string>
+    <string name="mask_image">Маска изображения</string>
+    <string name="clear_mask">Убрать маску</string>
+    <string name="close_preview">Закрыть предпросмотр</string>
+    <string name="generated_image">Созданное изображение</string>
+    <string name="image_thumbnail">Миниатюра изображения</string>
+    <string name="exit_selection">Завершить выделение</string>
+    <string name="import_preview">Предпросмотр импорта</string>
+    <string name="drawing_clear_canvas">Очистить холст</string>
+    <string name="drawing_clear_confirm">Удалить все рисунки?</string>
+    <string name="drawing_select_color">Выбор цвета</string>
+    <string name="drawing_color_result">Результат:</string>
+    <string name="select">Выбрать</string>
+    <string name="drawing_size">Размер: %1$d</string>
+    <string name="drawing_alpha">Прозр.: %1$d%%</string>
+    <string name="drawing_blur">Размытие: %1$d</string>
+    <string name="drawing_save_failed">Не удалось сохранить рисунок: %1$s</string>
+    <string name="drawing_color_changed">Цвет изменён</string>
+    <string name="stamp_disabled">Штамп выключен</string>
+    <string name="stamp_selecting">Выбор области штампа</string>
+    <string name="stamp_drawing">Рисование штампом</string>
+    <string name="selected_file_name">Выбран файл: %1$s</string>
+    <string name="clip_skip_value">CLIP Skip %1$d</string>
+    <string name="width_short">Ш</string>
+    <string name="height_short">В</string>
+    <string name="backend_channel">Движок генерации</string>
+    <string name="backend_channel_desc">Уведомления о работе движка генерации</string>
+    <string name="generation_channel">Генерация изображений</string>
+    <string name="generation_channel_desc">Фоновая генерация изображений</string>
+    <string name="generation_progress">Прогресс: %1$d%%</string>
+    <string name="remote_host_channel">Удалённое управление</string>
+    <string name="remote_host_channel_desc">Режим хоста для удалённого управления</string>
+    <string name="time_unknown">неизвестно</string>
+    <string name="time_milliseconds">%1$d мс</string>
+    <string name="time_seconds">%1$.1f с</string>
+    <string name="time_minutes_seconds">%1$d мин %2$d с</string>
+    <string name="history_timestamp_pattern">dd.MM HH:mm</string>
+    <string name="unit_gigabytes">ГБ</string>
+    <string name="composite_image_failed">Не удалось объединить изображения: %1$s</string>
+    <string name="cannot_open_lora">Не удалось открыть файл LoRA %1$d</string>
+    <string name="qnn_prepare_failed">Не удалось подготовить библиотеки QNN</string>
+    <string name="safety_model_copy_failed">Не удалось скопировать модель проверки безопасности</string>
+    <string name="backend_exit_code">Движок завершил работу с кодом: %1$d</string>
+    <string name="response_body_empty">Сервер вернул пустой ответ</string>
+    <string name="image_data_missing">В ответе нет данных изображения</string>
+    <string name="result_decode_failed">Не удалось прочитать полученное изображение</string>
+    <string name="mode_txt2img">Из текста</string>
+    <string name="mode_img2img">По изображению</string>
+    <string name="mode_inpaint">Дорисовка</string>
+    <string name="clipboard_parameters_label">Параметры Local Dream</string>
+</resources>

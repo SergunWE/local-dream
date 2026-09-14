@@ -357,8 +357,8 @@ class UpscalerRepository private constructor(private val context: Context) {
 
         return UpscalerModel(
             id = id,
-            name = context.getString(R.string.upscaler_anime),
-            description = context.getString(R.string.upscaler_anime_desc),
+            name = context.localizedString(R.string.upscaler_anime),
+            description = context.localizedString(R.string.upscaler_anime_desc),
             baseUrl = baseUrl,
             fileUri = fileUri,
             isDownloaded = isDownloaded,
@@ -373,8 +373,8 @@ class UpscalerRepository private constructor(private val context: Context) {
 
         return UpscalerModel(
             id = id,
-            name = context.getString(R.string.upscaler_realistic),
-            description = context.getString(R.string.upscaler_realistic_desc),
+            name = context.localizedString(R.string.upscaler_realistic),
+            description = context.localizedString(R.string.upscaler_realistic_desc),
             baseUrl = baseUrl,
             fileUri = fileUri,
             isDownloaded = isDownloaded,
@@ -496,7 +496,7 @@ class ModelRepository private constructor(private val context: Context) {
         return Model(
             id = modelId,
             name = modelId,
-            description = context.getString(R.string.custom_model),
+            description = context.localizedString(R.string.custom_model),
             baseUrl = "",
             generationSize = if (isSdxl || isAnima) 1024 else 512,
             approximateSize = "Custom",
@@ -553,7 +553,7 @@ class ModelRepository private constructor(private val context: Context) {
         return Model(
             id = id,
             name = "CyberRealistic v10",
-            description = context.getString(R.string.cyberrealistic_description),
+            description = context.localizedString(R.string.cyberrealistic_description),
             baseUrl = baseUrl,
             fileUri = fileUri,
             generationSize = 1024,
@@ -577,7 +577,7 @@ class ModelRepository private constructor(private val context: Context) {
         return Model(
             id = id,
             name = "CyberRealistic v10 DMD2",
-            description = context.getString(R.string.dmd2_description),
+            description = context.localizedString(R.string.dmd2_description),
             baseUrl = baseUrl,
             fileUri = fileUri,
             generationSize = 1024,
@@ -603,7 +603,7 @@ class ModelRepository private constructor(private val context: Context) {
         return Model(
             id = id,
             name = "Illustrious v16",
-            description = context.getString(R.string.illustriousv16_description),
+            description = context.localizedString(R.string.illustriousv16_description),
             baseUrl = baseUrl,
             fileUri = fileUri,
             generationSize = 1024,
@@ -627,7 +627,7 @@ class ModelRepository private constructor(private val context: Context) {
         return Model(
             id = id,
             name = "Illustrious v16 DMD2",
-            description = context.getString(R.string.dmd2_description),
+            description = context.localizedString(R.string.dmd2_description),
             baseUrl = baseUrl,
             fileUri = fileUri,
             generationSize = 1024,
@@ -654,7 +654,7 @@ class ModelRepository private constructor(private val context: Context) {
         return Model(
             id = id,
             name = "Anything V5.0",
-            description = context.getString(R.string.anythingv5_description),
+            description = context.localizedString(R.string.anythingv5_description),
             baseUrl = baseUrl,
             fileUri = fileUri,
             approximateSize = "1.1GB",
@@ -677,7 +677,7 @@ class ModelRepository private constructor(private val context: Context) {
         return Model(
             id = id,
             name = "Anything V5.0",
-            description = context.getString(R.string.anythingv5_description),
+            description = context.localizedString(R.string.anythingv5_description),
             baseUrl = baseUrl,
             fileUri = fileUri,
             approximateSize = "1.2GB",
@@ -701,7 +701,7 @@ class ModelRepository private constructor(private val context: Context) {
         return Model(
             id = id,
             name = "QteaMix",
-            description = context.getString(R.string.qteamix_description),
+            description = context.localizedString(R.string.qteamix_description),
             baseUrl = baseUrl,
             fileUri = fileUri,
             approximateSize = "1.1GB",
@@ -722,7 +722,7 @@ class ModelRepository private constructor(private val context: Context) {
         return Model(
             id = id,
             name = "QteaMix",
-            description = context.getString(R.string.qteamix_description),
+            description = context.localizedString(R.string.qteamix_description),
             baseUrl = baseUrl,
             fileUri = fileUri,
             approximateSize = "1.2GB",
@@ -746,7 +746,7 @@ class ModelRepository private constructor(private val context: Context) {
         return Model(
             id = id,
             name = "CuteYukiMix",
-            description = context.getString(R.string.cuteyukimix_description),
+            description = context.localizedString(R.string.cuteyukimix_description),
             baseUrl = baseUrl,
             fileUri = fileUri,
             approximateSize = "1.1GB",
@@ -767,7 +767,7 @@ class ModelRepository private constructor(private val context: Context) {
         return Model(
             id = id,
             name = "CuteYukiMix",
-            description = context.getString(R.string.cuteyukimix_description),
+            description = context.localizedString(R.string.cuteyukimix_description),
             baseUrl = baseUrl,
             fileUri = fileUri,
             approximateSize = "1.2GB",
@@ -791,7 +791,7 @@ class ModelRepository private constructor(private val context: Context) {
         return Model(
             id = id,
             name = "Absolute Reality",
-            description = context.getString(R.string.absolutereality_description),
+            description = context.localizedString(R.string.absolutereality_description),
             baseUrl = baseUrl,
             fileUri = fileUri,
             approximateSize = "1.1GB",
@@ -813,7 +813,7 @@ class ModelRepository private constructor(private val context: Context) {
         return Model(
             id = id,
             name = "Absolute Reality",
-            description = context.getString(R.string.absolutereality_description),
+            description = context.localizedString(R.string.absolutereality_description),
             baseUrl = baseUrl,
             fileUri = fileUri,
             approximateSize = "1.2GB",
@@ -837,7 +837,7 @@ class ModelRepository private constructor(private val context: Context) {
         return Model(
             id = id,
             name = "ChilloutMix",
-            description = context.getString(R.string.chilloutmix_description),
+            description = context.localizedString(R.string.chilloutmix_description),
             baseUrl = baseUrl,
             fileUri = fileUri,
             approximateSize = "1.1GB",
@@ -859,7 +859,7 @@ class ModelRepository private constructor(private val context: Context) {
         return Model(
             id = id,
             name = "ChilloutMix",
-            description = context.getString(R.string.chilloutmix_description),
+            description = context.localizedString(R.string.chilloutmix_description),
             baseUrl = baseUrl,
             fileUri = fileUri,
             approximateSize = "1.2GB",

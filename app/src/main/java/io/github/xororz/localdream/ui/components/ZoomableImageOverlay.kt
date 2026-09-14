@@ -33,7 +33,9 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import io.github.xororz.localdream.R
 
 @Composable
 fun OverlayIconButton(icon: ImageVector, contentDescription: String?, onClick: () -> Unit) {
@@ -123,7 +125,7 @@ fun ZoomableImageOverlay(
         if (bitmap != null) {
             Image(
                 bitmap = bitmap.asImageBitmap(),
-                contentDescription = "preview image",
+                contentDescription = stringResource(R.string.preview_image),
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f, matchHeightConstraintsFirst = true)
@@ -152,7 +154,7 @@ fun ZoomableImageOverlay(
         ) {
             OverlayIconButton(
                 icon = Icons.Default.Refresh,
-                contentDescription = "reset zoom",
+                contentDescription = stringResource(R.string.reset_zoom),
                 onClick = {
                     scale = 1f
                     offsetX = 0f

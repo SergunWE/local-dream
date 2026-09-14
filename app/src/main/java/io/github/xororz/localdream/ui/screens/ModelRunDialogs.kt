@@ -92,7 +92,7 @@ internal fun CustomAspectRatioDialog(onConfirm: (String) -> Unit, onDismiss: () 
                             ratioError =
                                 false
                         },
-                        label = { Text("W") },
+                        label = { Text(stringResource(R.string.width_short)) },
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier.weight(1f),
@@ -107,7 +107,7 @@ internal fun CustomAspectRatioDialog(onConfirm: (String) -> Unit, onDismiss: () 
                             ratioError =
                                 false
                         },
-                        label = { Text("H") },
+                        label = { Text(stringResource(R.string.height_short)) },
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier.weight(1f),

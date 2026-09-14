@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import io.github.xororz.localdream.R
 import io.github.xororz.localdream.data.Model
+import io.github.xororz.localdream.data.localizedString
 import io.github.xororz.localdream.utils.Http
 import java.io.File
 import java.io.FileOutputStream
@@ -198,7 +199,7 @@ class ModelDownloadService : Service() {
                 extractTempDir?.deleteRecursively()
 
                 _downloadState.value =
-                    DownloadState.Error(modelId, e.message ?: getString(R.string.unknown_error))
+                    DownloadState.Error(modelId, e.message ?: localizedString(R.string.unknown_error))
                 updateNotification(modelName, 0f, false, e.message)
 
                 withContext(Dispatchers.Main) {
@@ -218,10 +219,10 @@ class ModelDownloadService : Service() {
 
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) {
-                throw Exception(getString(R.string.error_download_failed, response.code.toString()))
+                throw Exception(localizedString(R.string.error_download_failed, response.code.toString()))
             }
 
-            val body = response.body ?: throw Exception("Response body is null")
+            val body = response.body ?: throw Exception(localizedString(R.string.response_body_empty))
             val totalBytes = body.contentLength()
             var downloadedBytes = 0L
             var lastUpdateTime = 0L
@@ -261,7 +262,7 @@ class ModelDownloadService : Service() {
             // ends the read loop without throwing, leaving a partial file.
             if (totalBytes > 0 && downloadedBytes != totalBytes) {
                 throw Exception(
-                    getString(R.string.error_download_failed, "$downloadedBytes/$totalBytes"),
+                    localizedString(R.string.error_download_failed, "$downloadedBytes/$totalBytes"),
                 )
             }
         }
@@ -302,10 +303,10 @@ class ModelDownloadService : Service() {
     private fun createNotificationChannel() {
         val channel = NotificationChannel(
             NOTIFICATION_CHANNEL_ID,
-            getString(R.string.model_download_channel),
+            localizedString(R.string.model_download_channel),
             NotificationManager.IMPORTANCE_LOW,
         ).apply {
-            description = getString(R.string.model_download_channel_desc)
+            description = localizedString(R.string.model_download_channel_desc)
         }
         notificationManager.createNotificationChannel(channel)
     }
@@ -316,9 +317,9 @@ class ModelDownloadService : Service() {
         isExtracting: Boolean = false,
     ): android.app.Notification {
         val title = if (isExtracting) {
-            getString(R.string.extracting)
+            localizedString(R.string.extracting)
         } else {
-            getString(R.string.downloading_model, modelName)
+            localizedString(R.string.downloading_model, modelName)
         }
 
         val openAppIntent = packageManager.getLaunchIntentForPackage(packageName)?.apply {
@@ -350,7 +351,7 @@ class ModelDownloadService : Service() {
         val notification = when {
             success -> {
                 NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                    .setContentTitle(getString(R.string.download_complete))
+                    .setContentTitle(localizedString(R.string.download_complete))
                     .setContentText(modelName)
                     .setSmallIcon(android.R.drawable.stat_sys_download_done)
                     .setOngoing(false)
@@ -359,7 +360,7 @@ class ModelDownloadService : Service() {
 
             error != null -> {
                 NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                    .setContentTitle(getString(R.string.download_failed))
+                    .setContentTitle(localizedString(R.string.download_failed))
                     .setContentText(error)
                     .setSmallIcon(android.R.drawable.stat_notify_error)
                     .setOngoing(false)

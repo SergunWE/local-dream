@@ -16,6 +16,7 @@ import io.github.xororz.localdream.R
 import io.github.xororz.localdream.data.Model
 import io.github.xororz.localdream.data.ModelRepository
 import io.github.xororz.localdream.data.PatchScanner
+import io.github.xororz.localdream.data.localizedString
 import io.github.xororz.localdream.remote.RemoteCatalog
 import io.github.xororz.localdream.remote.RemoteHostInfo
 import io.github.xororz.localdream.remote.RemoteHostServer
@@ -307,10 +308,10 @@ class RemoteHostService : Service() {
     private fun createNotificationChannel() {
         val channel = NotificationChannel(
             CHANNEL_ID,
-            "Remote Host",
+            localizedString(R.string.remote_host_channel),
             NotificationManager.IMPORTANCE_LOW,
         ).apply {
-            description = "Host mode for remote control"
+            description = localizedString(R.string.remote_host_channel_desc)
         }
         val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         manager.createNotificationChannel(channel)
@@ -327,8 +328,8 @@ class RemoteHostService : Service() {
             PendingIntent.FLAG_IMMUTABLE,
         )
         return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle(getString(R.string.remote_host_notify_title))
-            .setContentText(getString(R.string.remote_host_notify))
+            .setContentTitle(localizedString(R.string.remote_host_notify_title))
+            .setContentText(localizedString(R.string.remote_host_notify))
             .setSmallIcon(R.drawable.ic_launcher_monochrome)
             .setContentIntent(pendingIntent)
             .setOngoing(true)

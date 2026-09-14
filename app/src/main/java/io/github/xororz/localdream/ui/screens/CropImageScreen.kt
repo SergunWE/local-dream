@@ -140,7 +140,7 @@ fun CropImageScreen(
                     IconButton(onClick = onCancel) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(R.string.back),
                         )
                     }
                 },
@@ -148,7 +148,7 @@ fun CropImageScreen(
                     IconButton(onClick = { cropifyState.crop() }) {
                         Icon(
                             imageVector = Icons.Default.Check,
-                            contentDescription = "Crop",
+                            contentDescription = stringResource(R.string.crop_image),
                         )
                     }
                 },

@@ -152,7 +152,7 @@ fun DataBackupDialog(installedModelIds: Set<String>, onDismiss: () -> Unit) {
                             stringResource(
                                 R.string.backup_stats_all,
                                 currentStats.totalCount,
-                                formatBytes(currentStats.totalBytes),
+                                formatBytes(context, currentStats.totalBytes),
                             )
                         } else {
                             stringResource(R.string.backup_preparing)
@@ -164,7 +164,7 @@ fun DataBackupDialog(installedModelIds: Set<String>, onDismiss: () -> Unit) {
                             text = stringResource(
                                 R.string.backup_stats_favorites,
                                 currentStats.favoriteCount,
-                                formatBytes(currentStats.favoriteBytes),
+                                formatBytes(context, currentStats.favoriteBytes),
                             ),
                             style = MaterialTheme.typography.bodyMedium,
                         )

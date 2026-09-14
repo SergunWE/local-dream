@@ -2,6 +2,7 @@
 agp = "9.1.1"
 kotlin = "2.3.21"
 coreKtx = "1.16.0"
+appcompat = "1.7.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -25,6 +26,7 @@ ktlint-gradle = "14.2.0"
 detekt = "1.23.7"
 
 [libraries]
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

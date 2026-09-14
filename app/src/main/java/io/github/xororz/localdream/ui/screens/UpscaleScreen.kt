@@ -802,7 +802,7 @@ fun UpscaleScreen(navController: NavController, modifier: Modifier = Modifier) {
                             } catch (e: Exception) {
                                 Toast.makeText(
                                     context,
-                                    msgUpscaleFailed.format(e.message ?: "Unknown error"),
+                                    msgUpscaleFailed.format(e.message ?: msgUnknownError),
                                     Toast.LENGTH_SHORT,
                                 ).show()
                             } finally {
@@ -868,7 +868,7 @@ fun prepareRuntimeDir(context: Context): File {
         }
     } catch (e: IOException) {
         Log.e("UpscaleScreen", "Failed to prepare QNN libraries from assets", e)
-        throw RuntimeException("Failed to prepare QNN libraries from assets", e)
+        throw RuntimeException(context.getString(R.string.qnn_prepare_failed), e)
     }
 
     runtimeDir.setReadable(true, true)

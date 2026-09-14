@@ -967,7 +967,7 @@ fun ModelRunScreen(
                 pendingUltrafix = false
                 Toast.makeText(
                     context,
-                    msgUltrafixFailed.format(e.message ?: "Unknown error"),
+                    msgUltrafixFailed.format(e.message ?: msgUnknownError),
                     Toast.LENGTH_SHORT,
                 ).show()
                 false
@@ -1069,7 +1069,7 @@ fun ModelRunScreen(
 
     fun handleSaveImage(context: Context, bitmap: Bitmap, onSuccess: () -> Unit, onError: (String) -> Unit) {
         if (!checkStoragePermission(context)) {
-            onError("need storage permission to save image")
+            onError(context.getString(R.string.permission_storage_required))
             return
         }
 
@@ -1126,7 +1126,7 @@ fun ModelRunScreen(
                         )
                     } catch (e: Exception) {
                         withContext(Dispatchers.Main) {
-                            onError("Failed to create composite image: ${e.localizedMessage}")
+                            onError(context.getString(R.string.composite_image_failed, e.localizedMessage ?: context.getString(R.string.unknown_error)))
                         }
                     }
                 }
@@ -1787,7 +1787,7 @@ fun ModelRunScreen(
                                         )
                                         Icon(
                                             Icons.Default.Image,
-                                            contentDescription = "select image",
+                                            contentDescription = stringResource(R.string.add_image),
                                             modifier = Modifier.size(20.dp),
                                         )
                                     }
@@ -2214,7 +2214,7 @@ fun ModelRunScreen(
                             ) {
                                 Image(
                                     bitmap = bitmap.asImageBitmap(),
-                                    contentDescription = "Generation Preview",
+                                    contentDescription = stringResource(R.string.generation_preview),
                                     modifier = Modifier.fillMaxSize(),
                                     contentScale = ContentScale.Fit,
                                 )
@@ -2253,7 +2253,7 @@ fun ModelRunScreen(
                                             .data(bitmap)
                                             .crossfade(true)
                                             .build(),
-                                        contentDescription = "Cropped Image",
+                                        contentDescription = stringResource(R.string.cropped_image),
                                         modifier = Modifier.fillMaxSize(),
                                     )
                                 } ?: selectedImageUri?.let { uri ->
@@ -2264,7 +2264,7 @@ fun ModelRunScreen(
                                             .data(uri)
                                             .crossfade(true)
                                             .build(),
-                                        contentDescription = "Selected Image",
+                                        contentDescription = stringResource(R.string.selected_image),
                                         modifier = Modifier.fillMaxSize(),
                                     )
                                 }
@@ -2291,7 +2291,7 @@ fun ModelRunScreen(
                                 ) {
                                     Icon(
                                         Icons.Default.Clear,
-                                        contentDescription = "Remove Image",
+                                        contentDescription = stringResource(R.string.clear_image),
                                         modifier = Modifier.size(16.dp),
                                     )
                                 }
@@ -2312,7 +2312,7 @@ fun ModelRunScreen(
                                 ) {
                                     Icon(
                                         Icons.Default.Draw,
-                                        contentDescription = "Draw Image",
+                                        contentDescription = stringResource(R.string.drawing),
                                         modifier = Modifier.size(16.dp),
                                     )
                                 }
@@ -2341,7 +2341,7 @@ fun ModelRunScreen(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.Brush,
-                                        contentDescription = "Set Mask",
+                                        contentDescription = stringResource(R.string.set_inpaint_area),
                                     )
                                 }
                             }
@@ -2372,7 +2372,7 @@ fun ModelRunScreen(
                                                     .data(mb)
                                                     .crossfade(true)
                                                     .build(),
-                                                contentDescription = "Mask Image",
+                                                contentDescription = stringResource(R.string.mask_image),
                                                 modifier = Modifier.fillMaxSize(),
                                             )
                                         }
@@ -2394,7 +2394,7 @@ fun ModelRunScreen(
                                         ) {
                                             Icon(
                                                 Icons.Default.Clear,
-                                                contentDescription = "Clear Mask",
+                                                contentDescription = stringResource(R.string.clear_mask),
                                                 modifier = Modifier.size(16.dp),
                                             )
                                         }
@@ -2824,7 +2824,7 @@ fun ModelRunScreen(
             topEndContent = {
                 OverlayIconButton(
                     icon = Icons.Default.Close,
-                    contentDescription = "close preview",
+                    contentDescription = stringResource(R.string.close_preview),
                     onClick = { isPreviewMode = false },
                 )
             },
@@ -3096,7 +3096,7 @@ fun ModelRunScreen(
                         } catch (e: Exception) {
                             Toast.makeText(
                                 context,
-                                msgUpscaleFailed.format(e.message ?: "Unknown error"),
+                                msgUpscaleFailed.format(e.message ?: msgUnknownError),
                                 Toast.LENGTH_SHORT,
                             ).show()
                         } finally {
@@ -3192,7 +3192,7 @@ fun ModelRunScreen(
             topEndContent = {
                 OverlayIconButton(
                     icon = Icons.Default.Info,
-                    contentDescription = "View parameters",
+                    contentDescription = stringResource(R.string.generation_params_title),
                     onClick = {
                         if (selectedHistoryItem != null) {
                             showHistoryParametersDialog = true
@@ -3205,7 +3205,7 @@ fun ModelRunScreen(
                     } else {
                         Icons.Default.FavoriteBorder
                     },
-                    contentDescription = "toggle favorite",
+                    contentDescription = stringResource(R.string.toggle_favorite),
                     onClick = {
                         val item = selectedHistoryItem
                         if (item != null) {
@@ -3221,7 +3221,7 @@ fun ModelRunScreen(
                 if (detailCanUpscale) {
                     OverlayIconButton(
                         icon = Icons.Default.AutoFixHigh,
-                        contentDescription = "upscale image",
+                        contentDescription = stringResource(R.string.image_upscale),
                         onClick = {
                             if (loadDetailIntoResult()) {
                                 showUpscalerDialog = true
@@ -3232,7 +3232,7 @@ fun ModelRunScreen(
                 if (detailCanUltrafix) {
                     OverlayIconButton(
                         icon = Icons.Default.AutoAwesome,
-                        contentDescription = "ultrafix image",
+                        contentDescription = stringResource(R.string.ultrafix),
                         onClick = {
                             if (loadDetailIntoResult()) {
                                 showUltrafixConfirmDialog = true
@@ -3242,7 +3242,7 @@ fun ModelRunScreen(
                 }
                 OverlayIconButton(
                     icon = Icons.Default.Save,
-                    contentDescription = "Save to gallery",
+                    contentDescription = stringResource(R.string.save_image),
                     onClick = {
                         val bitmapToSave = historyBitmap
                         if (bitmapToSave != null) {

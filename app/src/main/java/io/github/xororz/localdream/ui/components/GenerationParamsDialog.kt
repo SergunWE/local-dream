@@ -113,7 +113,7 @@ fun GenerationParamsDialog(
                     val mode = displayMode ?: params.mode
                     if (mode != GenerationMode.UNKNOWN) {
                         Text(
-                            stringResource(R.string.basic_mode, mode.name.lowercase()),
+                            stringResource(R.string.basic_mode, generationModeName(mode)),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                         if (mode != GenerationMode.TXT2IMG) {
@@ -124,7 +124,7 @@ fun GenerationParamsDialog(
                         }
                     }
                     Text(
-                        stringResource(R.string.basic_time, params.generationTime ?: "unknown"),
+                        stringResource(R.string.basic_time, localizedDuration(params.generationTime)),
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }

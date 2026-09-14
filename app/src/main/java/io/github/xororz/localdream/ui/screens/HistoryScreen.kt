@@ -226,7 +226,7 @@ fun HistoryScreen(navController: NavController) {
             topEndContent = {
                 OverlayIconButton(
                     icon = Icons.Default.Info,
-                    contentDescription = "View parameters",
+                    contentDescription = stringResource(R.string.generation_params_title),
                     onClick = { showParamsDialog = true },
                 )
                 OverlayIconButton(
@@ -235,7 +235,7 @@ fun HistoryScreen(navController: NavController) {
                     } else {
                         Icons.Default.FavoriteBorder
                     },
-                    contentDescription = "toggle favorite",
+                    contentDescription = stringResource(R.string.toggle_favorite),
                     onClick = {
                         // Keep the overlay's own copy in sync; the grid
                         // refreshes through the observed flow.
@@ -247,7 +247,7 @@ fun HistoryScreen(navController: NavController) {
                 )
                 OverlayIconButton(
                     icon = Icons.Default.Save,
-                    contentDescription = "Save to gallery",
+                    contentDescription = stringResource(R.string.save_image),
                     onClick = {
                         val bitmapToSave = previewBitmap
                         if (bitmapToSave != null) {
@@ -276,7 +276,7 @@ fun HistoryScreen(navController: NavController) {
                 )
                 OverlayIconButton(
                     icon = Icons.Default.Delete,
-                    contentDescription = "Delete image",
+                    contentDescription = stringResource(R.string.delete_image),
                     onClick = { showDeleteDialog = true },
                 )
             },

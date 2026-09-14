@@ -175,7 +175,7 @@ internal fun UltrafixImportDialog(
                 } else {
                     Image(
                         bitmap = source.asImageBitmap(),
-                        contentDescription = "import preview",
+                        contentDescription = stringResource(R.string.import_preview),
                         modifier = Modifier
                             .fillMaxWidth()
                             .heightIn(max = 220.dp),

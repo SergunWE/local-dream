@@ -65,6 +65,7 @@ import io.github.xororz.localdream.data.DeviceFilter
 import io.github.xororz.localdream.data.FavoriteFilter
 import io.github.xororz.localdream.data.GenerationMode
 import io.github.xororz.localdream.data.HistoryFilter
+import io.github.xororz.localdream.ui.components.generationModeName
 import io.github.xororz.localdream.utils.schedulerDisplayName
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -197,12 +198,12 @@ fun HistoryFilterSheet(
             Section(stringResource(R.string.history_filter_modes)) {
                 ChipRow {
                     val modeOptions = listOf(
-                        GenerationMode.TXT2IMG to "txt2img",
-                        GenerationMode.IMG2IMG to "img2img",
-                        GenerationMode.INPAINT to "inpaint",
-                        GenerationMode.ULTRAFIX to "ultrafix",
+                        GenerationMode.TXT2IMG,
+                        GenerationMode.IMG2IMG,
+                        GenerationMode.INPAINT,
+                        GenerationMode.ULTRAFIX,
                     )
-                    modeOptions.forEach { (mode, label) ->
+                    modeOptions.forEach { mode ->
                         val selected = draft.modes?.contains(mode) == true
                         ToneFilterChip(
                             selected = selected,
@@ -211,7 +212,7 @@ fun HistoryFilterSheet(
                                 val next = if (selected) current - mode else current + mode
                                 draft = draft.copy(modes = next.ifEmpty { null })
                             },
-                            label = { Text(label) },
+                            label = { Text(generationModeName(mode)) },
                         )
                     }
                 }

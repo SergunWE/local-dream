@@ -345,7 +345,7 @@ fun ImportParametersDialog(
                         ParamShareField.DENOISE_STRENGTH ->
                             imported.denoiseStrength?.let { "%.2f".format(it) }
 
-                        ParamShareField.MODE -> imported.mode?.name?.lowercase()
+                        ParamShareField.MODE -> imported.mode?.let { generationModeName(it) }
                     }
                     FieldRow(
                         field = field,
@@ -402,6 +402,8 @@ fun ShareParamsFlow(
 ) {
     val context = LocalContext.current
     val msgShareCopied = stringResource(R.string.share_copied)
+    val clipboardLabel = stringResource(R.string.clipboard_parameters_label)
+    val modeLabel = generationModeName(source.mode)
 
     val available = remember(source) {
         val list = mutableListOf<ParamShareField>()
@@ -437,7 +439,7 @@ fun ShareParamsFlow(
                 ParamShareField.DENOISE_STRENGTH ->
                     "%.2f".format(source.denoiseStrength)
 
-                ParamShareField.MODE -> source.mode.name.lowercase()
+                ParamShareField.MODE -> modeLabel
             }
         },
         useBase64Initial = useBase64Initial,
@@ -448,7 +450,7 @@ fun ShareParamsFlow(
             val clipboard =
                 context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
             clipboard?.setPrimaryClip(
-                ClipData.newPlainText("Local Dream params", payload),
+                ClipData.newPlainText(clipboardLabel, payload),
             )
             Toast.makeText(context, msgShareCopied, Toast.LENGTH_SHORT).show()
             onCopied()

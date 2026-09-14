@@ -352,7 +352,7 @@ fun UpscalerModelCard(
                 } else if (isSelected) {
                     Icon(
                         imageVector = Icons.Default.CheckCircle,
-                        contentDescription = "selected",
+                        contentDescription = stringResource(R.string.file_selected),
                         tint = MaterialTheme.colorScheme.primary,
                     )
                 }
